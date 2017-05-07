@@ -49,44 +49,44 @@ You know the drill. We'll learn more about more number/math stuff as we need it.
 
 Marked with single or double quotes:
 
-```
+```javascript
 "hello" 
 'world' 
 ```
 
 You can use either one. If you need to include a quote mark in your string, you can use the backslash to escape them:
 
-```
-console.log("It's \"game\" time.");
-> It's "game" time.
- console.log('It\'s "game" time.');
-> It's "game" time.
+```javascript
+> console.log("It's \"game\" time.");
+// It's "game" time.
+> console.log('It\'s "game" time.');
+// It's "game" time."
 ```
 
 As you can see, `console.log()` is how you print things out to the terminal. It's similar to `puts` or `print` in other languages.
 
 You can concatenate two strings with the plus sign:
 
-```
+```javascript
 "Hello" + "World"
 > ’HelloWorld'
 ```
 
 Watch out when concatenating strings and numbers though:
 
-```
-"6" + 2
-> ’62'
+```javascript
+> "6" + 2
+'62'
 
-But also:
+// But also:
 
-"6" * 2
-> 12
+> "6" * 2
+12
 ```
 
 This type coercion happens because JS is said to have weak typing. Obviously this doesn't fly in strongly typed languages like Ruby:
 
-```
+```ruby
 [1] pry(main)> "6" + 2
 TypeError: no implicit conversion of Fixnum into String
 from (pry):1:in `+'
@@ -98,7 +98,7 @@ We'll get into this kind of stuff later, just know it's out there.
 
 Strings have a bunch of built-in methods and properties:
 
-```
+```javascript
 > "hello".length
 5
 > "hello".toUpperCase()
@@ -121,7 +121,7 @@ This is our first taste of functions and objects. More on those later. As you ca
 
 JS has `true` and `false` like many other languages. For more info on what types of values will be coerced into each, check the **Truthiness** section below.
 
-**NaN**              
+**NaN** 
 This is a special instance of `Number` that stands for "Not at Number". It is used to represent edge cases like when you divide 0 by 0. You can test for it with `isNan()`.
 
 **Infinity**  
@@ -190,13 +190,13 @@ There are also `!=` and `!==` operators, which mean "not equal".
 Before we go too much further, this is a good time to look at what values JavaScript considers to be "true" and what values it considers to be "false", besides the keywords `true` and `false`.
 Obviously if you compare two numbers you know what to expect:
 
-```
+```javascript
 > 1000 < 500000
 true
 ```
 but what happens if you try to compare two strings?
 
-```
+```javascript
 > "zero" < "one"
 false
 ```
@@ -693,7 +693,7 @@ person["age"] = 50;
 ```  
 or
 
-```
+```javascript
 var person = {
   "name": "Bob",
   "age": 50
