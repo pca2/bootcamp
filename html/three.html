@@ -2,27 +2,15 @@
 
 <html>
   <head>
-    <title>This is the cool title of the page</title>
+    <title>Title of page -- Three </title>
+    <!-- We've moved the JS into its own file and we'll now source it like this: --> 
+    <script src="scripts/three.js"></script>
+    <!-- Similiar to how you require something in Ruby --> 
   </head>
   <body>
     <p>This paragraph is in the body of the page</p>
-    <script>
-      var getGreeting = function(){
-        var d = new Date();
-          var hour = d.getHours();
-          if (hour < 12){
-              return "Good Morning"
-          } else if (hour >= 12 && hour <= 20 ) {
-              return "Good Afternoon"
-          } else {
-              return "Good Evening"    
-          }
-      }
-      var p = document.createElement("p");
-      p.innerHTML = getGreeting();
-      document.body.appendChild(p);
-      // Note: This code is for demonstration purposes. Don't use it in production
-    </script>
+    <!--We'll now add an HTML button and every time it's clicked it runs our JS function --> 
+    <input type="button" value="Click me to add another paragraph" onclick="addGreeting()" />
   </body>
 </html>
 

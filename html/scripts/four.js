@@ -1,3 +1,5 @@
+//Adding a hardcoded paragraph is all fine and good, but that's not really anything that HTML can't already do.
+//Instead we'll write a couple of function that return a greeting based on what time of day it actually is
 var getGreeting = function(){
   var d = new Date();
     var hour = d.getHours();
@@ -9,7 +11,9 @@ var getGreeting = function(){
         return "Good Evening"    
     }
 }
-var p = document.createElement("p");
-p.innerHTML = getGreeting();
-document.body.appendChild(p);
-// Note: This code is for demonstration purposes. Don't use it in production
+
+var setGreeting = function(){
+  var p = document.createElement("p");
+  p.innerHTML = getGreeting();
+  document.body.appendChild(p);
+}

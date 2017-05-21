@@ -2,16 +2,19 @@
 
 <html>
   <head>
-    <title>This is the cool title of the page</title>
+    <title>Title of Page -- Two</title>
   </head>
   <body>
     <p>This paragraph is in the body of the page</p>
+    <!-- I can use javaScript to add paragraphs to my page if I want with the script tag -->
     <script>
       var p = document.createElement("p");
       p.innerHTML = "I'm a paragraph that was created by javascript";
       document.body.appendChild(p);
-      // Note: This code is for demonstration purposes. Don't use it in production
     </script>
+    <!--  Note: This JS code is for demonstration purposes. Don't use it in production
+          If you include raw JS directly in the middle of your body like this it can be difficult to control when it will be run
+          Objects like document and functions like createElement will be explained shortly. -->
   </body>
 </html>
 
