@@ -127,7 +127,7 @@ This is a special instance of `Number` that stands for "Not at Number". It is us
 **Infinity**  
 Another special instance of `Number` to basically represent numbers larger than what JS is capable of displaying.
 
-**Date**, **Regexp** and **Symbol** we won't be covering today, but know that they're old there 
+**Date**, **Regexp** and **Symbol** we won't be covering today, but know that they're out there 
 
 
 ## Variables
@@ -665,7 +665,7 @@ The default clause is optional. It's like an else statement. The break statement
 
 ### Exercise 7
 
-Write sowe code that prints the numbers from 1 to 100. But for multiples of three print “Fizz” instead of the number and for the multiples of five print “Buzz”. For numbers which are multiples of both three and five print “FizzBuzz”."
+Write some code that prints the numbers from 1 to 100. But for multiples of three print “Fizz” instead of the number and for the multiples of five print “Buzz”. For numbers which are multiples of both three and five print “FizzBuzz”."
 Try to use if statements and loops in your answer.
 
 **Pro tip:** You can use the `%` operator to get the remainder of one number divided by another:
