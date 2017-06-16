@@ -945,7 +945,7 @@ This isn't something you need to worry about too much right now. Just be aware i
 
 ## Scope
 
-Variables defined with `var` are said to be scoped to the function they are in, or globally if they don't exist in any specific function. This means that anything defined inside a function only exists inside that particular function. Let's take at this and its implications:
+Variables defined with `var` are said to be scoped to the function they are in, or globally if they don't exist in any specific function. This means that anything defined inside a function only exists inside that particular function. Let's take a look at this and its implications:
 
 
 > JavaScript does not have block scope even though its block syntax suggests that it does. This confusion can be a source of errors. JavaScript does have function scope. That means that the parameters and variables defined in a function are not visible outside of the function, and that a variable defined anywhere within a function is visible everywhere within the function. In many modern languages, it is recommended that variables be declared as late as possible, at the first point of use. That turns out to be bad advice for JavaScript because it lacks block scope. So instead, it is best to declare all of the variables used in a function at the top of the function body.
