@@ -126,6 +126,8 @@ counter1.value();
 
 Notice of course that neither counter has direct access to that privateCounter variable, they have to go through the value function. Using closures in this way is sometimes known the _module pattern_.
 
+TK -- excercise 
+
 >Closures are useful because they let you associate some data (the lexical environment) with a function that operates on that data. This has obvious parallels to object oriented programming, where objects allow us to associate some data (the object's properties) with one or more methods. Consequently, you can use a closure anywhere that you might normally use an object with only a single method.
 
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures
@@ -140,5 +142,128 @@ Notice of course that neither counter has direct access to that privateCounter v
 >A closure is the combination of a function and the lexical environment within which that function was declared. This environment consists of any local variables that were in-scope at the time that the closure was created. 
 
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures
+
+
+## Let and Const Variables
+
+So far you've always been declaring variables with the `var` keyword, but there's actually other ways do define variables too, `let` and `const`
+
+First let's do a quick review of `var`. Two of the key properties of variables defined with var are that:
+
+1. They are scoped to the function in which they are declared, or if there is no function, the global frame.
+2. They are hoisted at compile time, meaning that they allocated in memory as soon as the script loads.
+
+Here's an example:
+
+```javascript
+console.log("before the block myVar equals " + myVar);
+if (1 < 2){
+  var myVar = "this is a var variable declared inside an if block";
+  console.log("inside the block myVar equals " + myVar);
+
+}
+console.log("after the if block myVar equals " + myVar);
+```
+
+This code will log the following:
+
+```javascript 
+before the block myVar equals undefined
+inside the block myVar equals this is a var variable declared inside an if block
+after the if block myVar equals this is a var variable declared inside an if block
+```
+
+### let 
+
+You can also define variables using the keyword `let` instead of `var`. Here's how `let` variables differ:
+
+1. Thy are scoped to the __block__ in which they are declared. In addition to functions, this includes things like if statements and while/for loops.
+2. They are __not hoisted__ meaning that they do not exist in memory in any way until they interpreter gets to the line on which they are defined. 
+
+
+Let's look at what happens if you swap out `var myVar` with `let myLet` in the code from above:
+
+```javascript
+console.log("before the block myLet equals " + myLet);
+if (1 < 2){
+    let myLet = "this is a let variable declared inside an if block";
+    console.log("inside the block myLet equals " + myLet);
+}
+console.log("after the if block myLet equals " + myLet);
+```
+
+Because let variables are not hoisted, this code chunk will actually error on the first line and not continue:
+
+```javascript
+Uncaught ReferenceError: myLet is not defined
+```
+
+if we skip that first line though we get this:
+
+```javascript
+inside the block myLet equals this is a let variable declared inside an if block
+Script snippet #1:6 Uncaught ReferenceError: myLet is not defined
+```
+
+So asy you can see, the `myLet` only existed in the if block. Unlike a `var` variable it doesn't exist in any form outside of it.
+
+In the right circumstances, `let` has several advantages over `var`. The biggest is possibly performance. Because `let` variables are cleaned up after their block completes, they're no longer sitting around taking up memory. They're also great for temporary variables such as in loops, and allow for cleaner code. Consider the following:
+
+
+```javascript
+var array = [1,2,3];
+
+for (var i = 0; i < array.length; i += 1) {
+  console.log(array[i]);
+   }
+
+console.log("i is still equal to " + i);
+```
+
+Output:
+```
+1
+2
+3
+i is still equal to 3
+```
+
+We don't think about it, but i is still there in memory, taking up space after the for loop completes. If we define i with `let` instead, it will be cleaned up as soon as it's no longer needed:
+
+
+```javascript
+var array = [1,2,3];
+
+for (let i = 0; i < array.length; i += 1) {
+  console.log(array[i]);
+   }
+
+console.log("i is still equal to " + i);
+```
+
+Output:
+```
+1
+2
+3
+ReferenceError: i is not defined
+```
+
+This can be especially helpful if you have multpile loops going at once. 
+
+TK -- Const example
+
+
+var -- hoisted and scoped to function or globally
+let -- not hoisted and scoped to the block or globally
+const -- not hoisted, scoped to the block and will throw error if you try to redefine it. Consts are not immutable though. const objs can have their properties changed
+
+## callbacks
+
+## this keyword
+
+## inheritance/prototypes
+
+
 
 
