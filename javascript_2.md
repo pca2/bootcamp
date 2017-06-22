@@ -75,7 +75,7 @@ add10(7);
 
 Now that's neat and all, but maybe not the most practical example. Let's take a look at some instances where closures can be quick helpful.
 
-Closures allow you to mimic some of the features of object-oriented languages that JS lacks on its own. for example, private methods. Let's take a look at an example:
+Closures allow you to mimic some of the features of object-oriented languages that JS lacks on its own. for example, private values. Let's take a look at an example:
 
 
 
@@ -151,7 +151,7 @@ So far you've always been declaring variables with the `var` keyword, but there'
 First let's do a quick review of `var`. Two of the key properties of variables defined with var are that:
 
 1. They are scoped to the function in which they are declared, or if there is no function, the global frame.
-2. They are hoisted at compile time, meaning that they allocated in memory as soon as the script loads.
+2. They are hoisted at compile time, meaning that they are allocated in memory as soon as the script loads.
 
 Here's an example:
 
@@ -167,7 +167,7 @@ console.log("after the if block myVar equals " + myVar);
 
 This code will log the following:
 
-```javascript 
+```
 before the block myVar equals undefined
 inside the block myVar equals this is a var variable declared inside an if block
 after the if block myVar equals this is a var variable declared inside an if block
@@ -178,7 +178,7 @@ after the if block myVar equals this is a var variable declared inside an if blo
 You can also define variables using the keyword `let` instead of `var`. Here's how `let` variables differ:
 
 1. Thy are scoped to the __block__ in which they are declared. In addition to functions, this includes things like if statements and while/for loops.
-2. They are __not hoisted__ meaning that they do not exist in memory in any way until they interpreter gets to the line on which they are defined. 
+2. They are __not hoisted__ meaning that they do not exist in memory in any way until the interpreter gets to the line on which they are defined. 
 
 
 Let's look at what happens if you swap out `var myVar` with `let myLet` in the code from above:
@@ -251,12 +251,44 @@ ReferenceError: i is not defined
 
 This can be especially helpful if you have multpile loops going at once. 
 
-TK -- Const example
+### const
+
+Variables defined with `const` are very similiar to `let` variables.
+
+1. Thy are scoped to the __block__ in which they are declared. In addition to functions, this includes things like if statements and while/for loops.
+2. They are __not hoisted__ meaning that they do not exist in memory in any way until the interpreter gets to the line on which they are defined. 
+
+Plus a third rule:
+3. Variables defined with `const` will throw an error if you attempt to re-define them.
 
 
-var -- hoisted and scoped to function or globally
-let -- not hoisted and scoped to the block or globally
-const -- not hoisted, scoped to the block and will throw error if you try to redefine it. Consts are not immutable though. const objs can have their properties changed
+```javascript
+const name = "Ralph";
+console.log("In the global frame the name is " + name);
+if (1 < 2){
+  const name = "Sam";
+  console.log("In this block name is " + name);
+}
+console.log("Back in the global frame the name is " + name);
+const name = "Another name";
+```
+
+Output:
+```
+In the global frame the name is Ralph
+In this block name is Sam
+Back in the global frame the name is Ralph
+SyntaxError: Identifier 'name' has already been declared
+```
+
+__Summary__
+
+| Type | Scope | Hoisting | Other |
+| --- | --- | --- | --- |
+|var |function|hoisted|N/A |
+|let | block |not hoisted|N/A |
+|const|block|not hoised| error if re-defined|
+
 
 ## callbacks
 
