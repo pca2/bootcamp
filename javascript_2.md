@@ -292,7 +292,110 @@ __Summary__
 
 ## callbacks
 
-## this keyword
+## this keyword and constructor funccions
+and inheritance?
+
+
+Let's say you want to create a new object, fido.
+```javascript
+var fido = {
+  name: "fido",
+  barkCount: 0     
+};
+```
+Let's say you want to create another one.
+```javascript
+var lassie = {
+  name: "lassie",
+  barkCount: 0     
+};
+```
+
+This is great and all, but in practice, you probably don't want to be lovingly handmaking artisnal objects one-by-one; you want some automation. Fortunately we can create a single constructor function that will take care of that for us. 
+
+```javascript
+var Dog = function(name,barkCount) {
+  this.name = name;
+  this.barkCount = barkCount:
+}
+```
+
+So with this handy function we can now do things like:
+
+```javascript
+var fido = new Dog('fido',0);
+```
+
+So we've encountered the `this` keyword. Here's the deal.
+
+This is like a pronoun. "Create a new dog. It's name will be Fido"
+
+Also don't forget the difference between parameters here:
+```javascript
+var Dog = function(fartz_parameter,buttz_parameter) {
+  this.name = fartz_parameter;
+  this.barkCount = buttz_parameter:
+}
+```
+
+There's lots of places when you use `this`. 
+
+```javascript
+var puppy = {
+  name: "fido",
+  barkCount: 0,
+  bark: function(){
+  this.barkCount += 1;
+    console.log("barkcount is " + this.barkCount);
+  }
+}
+
+puppy.bark();
+puppy.bark();
+```javascript
+
+**Invocation Rules**
+
+When you call a function just on its own, any uses of the keyword `this` will refer to the **Window** or **Global** object. 
+
+Example:
+
+
+```javascript
+var puppy = {};
+puppy.bark();
+
+woof = puppy.bark;
+
+//error!
+```
+
+In the following 2 examples, the `this` keyword will refer to the object on the left. In this case it would be *puppy*: 
+
+
+```javascript
+var puppy = {};
+puppy.bark();
+```
+
+```javascript
+var puppy = new Dog();
+```
+
+You can however manually specify the context you want to be invoked with the `call` and `apply` functions
+
+
+```javascript
+var puppy = {};
+Dog.bark.call(puppy, 1);
+```
+
+Normally any use of the `this` keyword in the `bark` method above would point to `Dog`, but we're manually saying that we want them to point to puppy with the use of `call`.
+
+and easy way to thin of it is that generally speaking, `this` only cares about how it is called, not how it was defined.
+
+>In most cases, the value of this is determined by how a function is called. It can't be set by assignment during execution, and it may be different each time the function is called -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this
+
 
 ## inheritance/prototypes
 
