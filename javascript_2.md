@@ -292,7 +292,7 @@ __Summary__
 
 ## callbacks
 
-## this keyword and constructor funccions
+## this keyword and constructor functions
 and inheritance?
 
 
@@ -326,11 +326,26 @@ So with this handy function we can now do things like:
 var fido = new Dog('fido',0);
 ```
 
-So we've encountered the `this` keyword. Here's the deal.
+So we've encountered the `this` keyword. It's a powerful idea that, like most things in Javascript, has a few quirks to it. Let's take a look.
 
-This is like a pronoun. "Create a new dog. It's name will be Fido"
+In Javascript `this` is a special keyword used inside functions to refer back to the object that invoked the function.  
+Much like the actual English word, `this` can kind of be thought of sort of like a pronoun. Instead of referring to a proper noun, it refers to another object. This is especially helpful when you want to refer to an object that might not exist yet. 
 
-Also don't forget the difference between parameters here:
+Let's take a look again and that Dog function to see what I mean.
+
+```javascript
+var Dog = function(name,barkCount) {
+  this.name = name;
+  this.barkCount = barkCount:
+}
+
+var fido = new Dog('fido',0);
+```
+When you create the fido object with the Dog function you're essentially "Create a new dog. Its name will be Fido and its barkCount will be 0"
+
+The `this` keyword acts as a placeholder. You're saying "whatever new object is created, assign it a name property equal to name, etc"
+
+Also don't forget the difference between parameters and properties in this example. We resuse them for ease of understanding, but they're separate things:
 ```javascript
 var Dog = function(fartz_parameter,buttz_parameter) {
   this.name = fartz_parameter;
@@ -352,7 +367,7 @@ var puppy = {
 
 puppy.bark();
 puppy.bark();
-```javascript
+```
 
 **Invocation Rules**
 
