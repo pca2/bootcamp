@@ -205,9 +205,9 @@ inside the block myLet equals this is a let variable declared inside an if block
 Script snippet #1:6 Uncaught ReferenceError: myLet is not defined
 ```
 
-So asy you can see, the `myLet` only existed in the if block. Unlike a `var` variable it doesn't exist in any form outside of it.
+So as you can see, the `myLet` only existed in the if block. Unlike a `var` variable, it doesn't exist in any form outside of this block.
 
-In the right circumstances, `let` has several advantages over `var`. The biggest is possibly performance. Because `let` variables are cleaned up after their block completes, they're no longer sitting around taking up memory. They're also great for temporary variables such as in loops, and allow for cleaner code. Consider the following:
+In the right circumstances, `let` has several advantages over `var`, most notably performance. Because `let` variables are cleaned up after their block completes, they're no longer sitting around taking up memory. They're also great for temporary variables such as in loops, and allow for cleaner code. Consider the following:
 
 
 ```javascript
@@ -215,7 +215,7 @@ var array = [1,2,3];
 
 for (var i = 0; i < array.length; i += 1) {
   console.log(array[i]);
-   }
+}
 
 console.log("i is still equal to " + i);
 ```
@@ -228,7 +228,7 @@ Output:
 i is still equal to 3
 ```
 
-We don't think about it, but i is still there in memory, taking up space after the for loop completes. If we define i with `let` instead, it will be cleaned up as soon as it's no longer needed:
+We don't think about it, but `i` is still there in memory after the loop completes, taking up space, and possibly colluding with other loops. If we define `i` with `let` instead, it will be cleaned up as soon as the loop is over:
 
 
 ```javascript
@@ -236,7 +236,7 @@ var array = [1,2,3];
 
 for (let i = 0; i < array.length; i += 1) {
   console.log(array[i]);
-   }
+}
 
 console.log("i is still equal to " + i);
 ```
@@ -296,14 +296,14 @@ __Summary__
 and inheritance?
 
 
-Let's say you want to create a new object, fido.
+Let's say you create a new object, fido:
 ```javascript
 var fido = {
   name: "fido",
   barkCount: 0     
 };
 ```
-Let's say you want to create another one.
+You like having fido around so much you decide to create another very similiar object, lassie:
 ```javascript
 var lassie = {
   name: "lassie",
@@ -311,41 +311,41 @@ var lassie = {
 };
 ```
 
-This is great and all, but in practice, you probably don't want to be lovingly handmaking artisnal objects one-by-one; you want some automation. Fortunately we can create a single constructor function that will take care of that for us. 
+This is great and all, but in practice, you probably don't want to be lovingly handmaking artisnal objects one-by-one; you want some automation. Fortunately we can create a single constructor function that will take care of that for us: 
 
 ```javascript
 var Dog = function(name,barkCount) {
   this.name = name;
-  this.barkCount = barkCount:
+  this.barkCount = 0;
 }
 ```
 
-So with this handy function we can now do things like:
+With this handy function we can create as many Dog-like obects as we want with:
 
 ```javascript
 var fido = new Dog('fido',0);
+
+console.log(fido);
+> Dog {name:'fido', barkCount: 0}
 ```
 
-So we've encountered the `this` keyword. It's a powerful idea that, like most things in Javascript, has a few quirks to it. Let's take a look.
+So we've encountered the `this` keyword. It's a powerful idea that, like most things in Javascript, has a few quirks to it.
 
-In Javascript `this` is a special keyword used inside functions to refer back to the object that invoked the function.  
-Much like the actual English word, `this` can kind of be thought of sort of like a pronoun. Instead of referring to a proper noun, it refers to another object. This is especially helpful when you want to refer to an object that might not exist yet. 
+In Javascript `this` is a special keyword used inside functions to refer back to the object/context that invoked the function. Much like the actual English word, `this` can be thought of sort of like a programming pronoun. Instead of referring to another noun though, it refers to another object. This is especially helpful when you want to refer to an object that might not exist yet. 
 
 Let's take a look again and that Dog function to see what I mean.
 
 ```javascript
 var Dog = function(name,barkCount) {
   this.name = name;
-  this.barkCount = barkCount:
+  this.barkCount = 0;
 }
 
 var fido = new Dog('fido',0);
 ```
-When you create the fido object with the Dog function you're essentially "Create a new dog. Its name will be Fido and its barkCount will be 0"
+The `this` keyword acts as a placeholder. You're saying "whatever new object is created from running this constructor function, assign it a name property equal to the name parameter, and a barkCount property equal to the barkCount parameter". This is helpful because the new object doesn't actually exist yet.
 
-The `this` keyword acts as a placeholder. You're saying "whatever new object is created, assign it a name property equal to name, etc"
-
-Also don't forget the difference between parameters and properties in this example. We resuse them for ease of understanding, but they're separate things:
+Also don't forget the difference between parameters and properties in these examples. We use the same name for ease of understanding, but they're separate things:
 ```javascript
 var Dog = function(fartz_parameter,buttz_parameter) {
   this.name = fartz_parameter;
@@ -353,61 +353,148 @@ var Dog = function(fartz_parameter,buttz_parameter) {
 }
 ```
 
-There's lots of places when you use `this`. 
+tk -- Excercise
+
+
+The `this` keyword can also be helpful when assigning functions to an object: 
 
 ```javascript
 var puppy = {
   name: "fido",
   barkCount: 0,
   bark: function(){
-  this.barkCount += 1;
+    this.barkCount += 1;
     console.log("barkcount is " + this.barkCount);
   }
 }
 
 puppy.bark();
+> barkcount is 1
 puppy.bark();
+> barkcount is 2
 ```
 
 **Invocation Rules**
 
-When you call a function just on its own, any uses of the keyword `this` will refer to the **Window** or **Global** object. 
+In the above example, the `this` in the `bark` function refers to `puppy`, which is pretty straight forward. There are however instances when things can get complicated and it can be tough to figure out what object `this` is pointing to. Let's go over some examples. 
 
-Example:
+Just to review, let's look at to straight forward examples again:
 
+Here the `this` in the `bark` function refers to the `fido` object:
 
 ```javascript
-var puppy = {};
-puppy.bark();
+var fido = {
+  name: "fido",
+  barkCount: 0,
+  bark: function(){
+    this.barkCount += 1;
+    console.log("barkcount is " + this.barkCount);
+  }
+}
 
-woof = puppy.bark;
-
-//error!
+fido.bark();
 ```
 
-In the following 2 examples, the `this` keyword will refer to the object on the left. In this case it would be *puppy*: 
-
-
+Here the `this` refers to the new `puppy` object that's created:
 ```javascript
-var puppy = {};
-puppy.bark();
-```
-
-```javascript
+var Dog = function(name,barkCount) {
+  this.name = name;
+  this.barkCount = barkCount:
+}
 var puppy = new Dog();
 ```
 
-You can however manually specify the context you want to be invoked with the `call` and `apply` functions
+That's pretty cut and dry, but what happens when you create a new object that refers to  existing object's inner functions? 
+Let's say for example that you want to create a new `fido_bark` function that refers back to the `fido.bark`:
+
+```javascript
+var fido = {
+  name: "fido",
+  barkCount: 0,
+  bark: function(){
+    this.barkCount += 1;
+    console.log("barkcount is " + this.barkCount);
+  }
+}
+
+var fido_bark = fido.bark;
+fido_bark();
+//TypeError: Cannot read property 'name' of undefined
+```
+
+What happens is that the `this` in the `fido.bark` function will refer to the next context "up". In this case it would be the the **Window** or **Global** object, which may not be what you want. 
+
+> Even though it appears [the this keyword] refers to the object where it is defined, it is not until an object invokes the this Function that [the this keyword] is actually assigned a value. And the value it is assigned is based exclusively on the object that invokes the this Function. [In short, the this keyword] has the value of the invoking object. -- http://javascriptissexy.com/understand-javascripts-this-with-clarity-and-master-it/
+
+An easy way to think of it is that generally speaking, The `this` keyword only cares about how it is called, not how it was defined.
+
+Fortunately you can work around this error if it comes up by manually specifing the context you want to be invoked with the `call` and `apply` functions:
 
 
 ```javascript
-var puppy = {};
-Dog.bark.call(puppy, 1);
+var fido = {
+  name: "fido",
+  barkCount: 0,
+  bark: function(){
+    this.barkCount += 1;
+    console.log("barkcount is " + this.barkCount);
+  }
+}
+
+var fido_bark = fido.bark;
+fido_bark.call(fido);
+> barkcount is 1
 ```
 
-Normally any use of the `this` keyword in the `bark` method above would point to `Dog`, but we're manually saying that we want them to point to puppy with the use of `call`.
+As you can see, we're manually telling the `bark` function that we want it to run with the context of `fido`, rather than `window`, which is what it would use by default.
 
-and easy way to thin of it is that generally speaking, `this` only cares about how it is called, not how it was defined.
+If the `fido_bark` function took any parameters you could pass them in after the first object:
+
+
+```javascript
+fido_bark.call(fido,one_parameter,two_parameter);
+```
+
+`apply` works just like `call` except instead of passing in parameters one by one, you pass in a single parameter array:
+
+```javascript
+fido_bark.apply(fido,[one_parameter,two_parameter]);
+```
+TK:
+- arrow functions
+- bind
+
+Bind is similar to call/apply. The difference is that with call/apply you're invoking the function immediately. Bind can be used to permanently set the context of a function ahead of time, for invocation later on:
+```javascript
+var fido = {
+  name: "fido",
+  bark: function () {
+  console.log("My name is  " + this.name);
+  }
+}
+
+var bingo = {
+  name: "bingo"
+}
+
+fido.bark();
+> "My name is fido"
+fido.bark.call(bingo);
+> "My name is bingo"
+//using call invokes the bark function right away, but what if we want to define a function that can be called later on:
+bingo.bark = fido.bark.bind(bingo);
+bingo.bark();
+> "my name is bingo"
+//This technique is called "function borrowing"
+```
+
+tk - exercise 
+This example is still kid of contrived, let's come up with a better example.
+
+- closures?
+
+
+
 
 >In most cases, the value of this is determined by how a function is called. It can't be set by assignment during execution, and it may be different each time the function is called -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this
 
