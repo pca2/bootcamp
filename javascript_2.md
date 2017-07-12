@@ -502,5 +502,59 @@ This example is still kid of contrived, let's come up with a better example.
 ## inheritance/prototypes
 
 
+## Spread Operator (ES6)
+
+The spread operator (...) expands enumerables like Arrays  to allow for easier manipulation of their content.
 
 
+```javascript
+var a = [1,2,3];
+console.log(a);
+> [1,2,3]
+console.log(...a);
+> 1 2 3
+```
+
+This may not seem that powerful, but actually makes it much easier to manipulate and edit arrays. For example, in ES5, the easiest way to concatenate two arrays is probably to use the concat function:
+```javascript
+var a = [1,2,3];
+var b = [4,5,6];
+var a_and_b = a.concat(b);
+> [1,2,3,4,5,6]
+```
+
+With the spread operator:
+```javascript
+var a = [1,2,3];
+var b = [4,5,6];
+var a_and_b = [...a,...b];
+> [1,2,3,4,5,6]
+```
+
+Reordering an array also becomes easier:
+
+```javascript
+var a = [1,2,3];
+var a = [0,...a,4,5];
+> [0,1,2,3,4,5]
+```
+
+__Objects__
+
+Support for the spread operator has also been proposed for objects. It's not officially supported yet, but is widely expected to become part of an update to the language soon. In the meantime, you can use it if you use a transpilier such as (Babel)[https://babeljs.io/].
+
+The neat thing about the spread operator for objects is that it makes it real easy to exact clone objects, or make clones of object that differ slighly. Check it:
+
+
+```javascript
+var me = {
+  name: "ME",
+  age: 37
+}
+var me_clone = {...me};
+console.log(me_clone);
+> Object {"age": 37,"name": "ME"}
+var you = {...me,name:'you'}
+console.log(you);
+> Object {"age": 37,"name": "you"}
+```
