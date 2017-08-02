@@ -501,7 +501,153 @@ This example is still kid of contrived, let's come up with a better example.
 
 ## inheritance/prototypes
 
+At this point you should be familiar with constructor functions:
 
+```javascript
+function Monster(name,color){
+  this.name = name;
+  this.color = color;
+  this.ugly = true;
+}
+```
+
+You can use them to create new objects with some built-in properties.
+
+```javascript
+var steve = new Monster('Steve','black');
+var matt = new Monster('Matt','green');
+console.log(steve);
+> Monster { name: 'Steve', color: 'black', ugly: true  }
+console.log(matt);
+> Monster { name: 'Matt', color: 'green', ugly: true  }
+```
+
+If we want to give a new property to one of our individual monster objects we can do that like so:
+
+```javascript
+steve.age = 500;
+console.log(steve);
+> Monster { name: 'Steve', color: 'black', ugly: true, age: 500 }
+matt.age = 500;
+console.log(matt);
+> Monster { name: 'Matt', color: 'green', ugly: true, age: 500 }
+```
+
+Let's say we decide that by default all monsters have two eyes. We'd like to set that property on all our existing monster objects. Instead of manually updating each individual monster object, like we did with the `age` property above, we can utilize the Monster function's `prototype` property and all monster objects will inherit that property as a default.
+
+```javascript
+Monster.prototype.eyes = 2;
+```
+Now all our monster objects will also respond to the `eyes` property:
+
+```javascript
+console.log(matt.eyes);
+> 2
+console.log(steve.eyes);
+> 2
+```
+
+However, if you log the entire `matt` or `steve` object, as we did before, it still doesn't show the `eyes` property
+
+```javascript
+console.log(steve);
+> Monster { name: 'Steve', color: 'black', ugly: true, age: 500 }
+console.log(matt);
+> Monster { name: 'Matt', color: 'green', ugly: true, age: 500 }
+```
+So what's going on here? Let's back up and talk a little bit about the big picture.
+
+
+### \_\_proto\_\_ and prototype
+
+By default all objects and functions in JavaScript have a prototype property. If you don't explictly set it to anything, the prototype will be an empty object.
+
+You access an object's prototype with the `__proto__` property:
+
+```javascript
+var cat = {name: 'Fluffy', color: 'brown' };
+console.log(a.__proto__);
+> {}
+```
+
+A function's prototype is accessed with the `prototype` property:
+
+```javascript
+function Cat(name,color){
+  this.name = name;
+  this.color = color;
+}
+console.log(Cat.prototype)
+> Cat {}
+```
+
+If we go back to our monster objects we can check the proto objects for them:
+
+TK TK
+
+
+Any objects created via a constructor function will have that function as its prototype instead of an empty object:
+
+```javascript
+function Cat(name,color){
+  this.name = name;
+  this.color = color;
+  this.ugly = true;
+}
+var bigfoot = new Cat('Tails', 'Brown');
+console.log(bigfoot.__proto__)
+> Cat {}
+```
+
+If we manually define an `age` property on the specific steve or matt objects it will overide this prototype, but without that it will default to the prototype value:
+
+```javascript
+Monster.prototype.age = 500;
+steve.age = 1;
+console.log(steve.age);
+> 1
+console.log(matt.age);
+> 500
+```
+// The above is okay, but doesn't really paint a good big picture. Adapt the code below into something clearer
+
+
+```javascript
+function Cat(name,color){
+ this.name = name;
+ this.color = color;
+ }
+
+ var f = new Cat('fluffy', 'white')
+ Cat.prototype.age = 3;
+ f.age = 5;
+ console.log(Cat.prototype);
+ console.log(f.__proto__);
+ var m = new Cat('muffin', 'brown');
+ console.log(m.__proto__)
+
+ console.log(f.age);
+ //5
+ console.log(f.__proto__.age)
+ //3
+ console.log(f.hasOwnProperty('age'));
+ //true
+ console.log(m.hasOwnProperty('age'));
+ //false
+
+
+f.age //checks instance first and then forwards up the inheritance chain
+
+// updating prototype after it's been define
+Cat.prototype.age = 4
+Fluffy.__proto__.age = 4
+//both do he same
+
+//if we redefine Cat, the existing children aren't affected, but any new ones are
+Cat.prototype = {age: 88};
+var s = new Cat('s','something');
+
+```
 ## Spread Operator (ES6)
 
 The spread operator (...) expands enumerables like Arrays  to allow for easier manipulation of their content.
