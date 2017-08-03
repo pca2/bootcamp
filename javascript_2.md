@@ -538,7 +538,7 @@ Let's say we decide that by default all monsters have two eyes. We'd like to set
 ```javascript
 Monster.prototype.eyes = 2;
 ```
-Now all our monster objects will also respond to the `eyes` property:
+Now all our monster objects will also respond to the `eyes` property, including all the ones that already exist.
 
 ```javascript
 console.log(matt.eyes);
@@ -560,7 +560,7 @@ So what's going on here? Let's back up and talk a little bit about the big pictu
 
 ### \_\_proto\_\_ and prototype
 
-By default all objects and functions in JavaScript have a prototype property. If you don't explictly set it to anything, the prototype will be an empty object.
+It's not usually displayed, but by default all objects and functions in JavaScript have a prototype property. If you don't explictly set it to anything, the prototype will be an empty object.
 
 You access an object's prototype with the `__proto__` property:
 
@@ -583,8 +583,14 @@ console.log(Cat.prototype)
 
 If we go back to our monster objects we can check the proto objects for them:
 
-TK TK
+```javascript
+console.log(steve.__proto__);
+> Monster { age: 500 }
+```
 
+As we can see the steve's __proto__ includes two parts. "Monster", which indicates its __constructor__ and an object containing all of the inherited properties.
+
+TK: Constructor explanation. Wasn't ugly inherited too? It wasn't. Log Monster.prototype and explain
 
 Any objects created via a constructor function will have that function as its prototype instead of an empty object:
 
