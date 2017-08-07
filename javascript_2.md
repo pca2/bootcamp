@@ -615,11 +615,26 @@ console.log(steve.age);
 console.log(matt.age);
 > 500
 ```
+
+### Classical vs Prototypal Based Inheritance
+
+Before we get too in the weeds of prototypes, it may be helpful to distinguish it from the more common class-based inheritance models. They are both hierarchical models of real world objects, but there are some subtle distinctions. 
+
+In a class based lang like Ruby or python, all objects belong to a class. 
+
+an object is an instance of a thing
+a class is a definition of a class of things 
+
+A class definition is sort of like a cooking recipe
+A recipe for pizza is instructions for how to create a pizza. If you follow it, you'll have pizza. But the recipe is not pizza itself. You can't eat a recipe. 
+
+https://stackoverflow.com/a/19640910
+
 // The above is okay, but doesn't really paint a good big picture. Adapt the code below into something clearer
 
 
 ```javascript
-function Cat(name,color){
+function Cat(name,color)6
  this.name = name;
  this.color = color;
  }
