@@ -514,23 +514,23 @@ function Monster(name,color){
 You can use them to create new objects with some built-in properties.
 
 ```javascript
-var steve = new Monster('Steve','black');
-var matt = new Monster('Matt','green');
-console.log(steve);
-> Monster { name: 'Steve', color: 'black', ugly: true  }
-console.log(matt);
-> Monster { name: 'Matt', color: 'green', ugly: true  }
+var bigfoot = new Monster('Bigfoot','brown');
+var yeti = new Monster('Yeti','white');
+console.log(bigfoot);
+> Monster { name: 'Bigfoot', color: 'brown', ugly: true  }
+console.log(yeti);
+> Monster { name: 'Yeti', color: 'white', ugly: true  }
 ```
 
 If we want to give a new property to one of our individual monster objects we can do that like so:
 
 ```javascript
-steve.age = 500;
-console.log(steve);
-> Monster { name: 'Steve', color: 'black', ugly: true, age: 500 }
-matt.age = 500;
-console.log(matt);
-> Monster { name: 'Matt', color: 'green', ugly: true, age: 500 }
+bigfoot.age = 500;
+console.log(bigfoot);
+> Monster { name: 'bigfoot', color: 'brown', ugly: true, age: 500 }
+yeti.age = 500;
+console.log(yeti);
+> Monster { name: 'Yeti', color: 'white', ugly: true, age: 500 }
 ```
 
 Let's say we decide that by default all monsters have two eyes. We'd like to set that property on all our existing monster objects. Instead of manually updating each individual monster object, like we did with the `age` property above, we can utilize the Monster function's `prototype` property and all monster objects will inherit that property as a default.
@@ -541,19 +541,19 @@ Monster.prototype.eyes = 2;
 Now all our monster objects will also respond to the `eyes` property, including all the ones that already exist.
 
 ```javascript
-console.log(matt.eyes);
+console.log(yeti.eyes);
 > 2
-console.log(steve.eyes);
+console.log(bigfoot.eyes);
 > 2
 ```
 
-However, if you log the entire `matt` or `steve` object, as we did before, it still doesn't show the `eyes` property
+However, if you log the entire `yeti` or `bigfoot` object, as we did before, it still doesn't show the `eyes` property
 
 ```javascript
-console.log(steve);
-> Monster { name: 'Steve', color: 'black', ugly: true, age: 500 }
-console.log(matt);
-> Monster { name: 'Matt', color: 'green', ugly: true, age: 500 }
+console.log(bigfoot);
+> Monster { name: 'Bigfoot', color: 'brown', ugly: true, age: 500 }
+console.log(yeti);
+> Monster { name: 'Yeti', color: 'white', ugly: true, age: 500 }
 ```
 So what's going on here? Let's back up and talk a little bit about the big picture.
 
@@ -584,11 +584,11 @@ console.log(Cat.prototype)
 If we go back to our monster objects we can check the proto objects for them:
 
 ```javascript
-console.log(steve.__proto__);
+console.log(bigfoot.__proto__);
 > Monster { age: 500 }
 ```
 
-As we can see the steve's __proto__ includes two parts. "Monster", which indicates its __constructor__ and an object containing all of the inherited properties.
+As we can see the bigfoot's __proto__ includes two parts. "Monster", which indicates its __constructor__ and an object containing all of the inherited properties.
 
 TK: Constructor explanation. Wasn't ugly inherited too? It wasn't. Log Monster.prototype and explain
 
@@ -605,14 +605,14 @@ console.log(bigfoot.__proto__)
 > Cat {}
 ```
 
-If we manually define an `age` property on the specific steve or matt objects it will overide this prototype, but without that it will default to the prototype value:
+If we manually define an `age` property on the specific bigfoot or yeti objects it will overide this prototype, but without that it will default to the prototype value:
 
 ```javascript
 Monster.prototype.age = 500;
-steve.age = 1;
-console.log(steve.age);
+bigfoot.age = 1;
+console.log(bigfoot.age);
 > 1
-console.log(matt.age);
+console.log(yeti.age);
 > 500
 ```
 
