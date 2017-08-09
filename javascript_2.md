@@ -618,38 +618,33 @@ console.log(yeti.age);
 
 ### Classical vs Prototypal Based Inheritance
 
-Inheritance as message forwarding
+> Inheritance is, at its core, a mechanism for automatic message delegation. It defines a forwarding path for not-understood messages. It creates relationships such that, if one object cannot respond to a received message, it delegates that message to another. You don’t have to write code to explicitly delegate the message, instead you define an inheritance relationship between two objects and the forwarding happens automatically. In classical inheritance these relationships are defined by creating subclasses. Messages are forwarded from subclass to superclass; the shared code is defined in the class hierarchy.
+-- POODR p.106
 
 Before we get too in the weeds of prototypes, it may be helpful to distinguish it from the more common class-based inheritance models. They are both hierarchical models of real world objects, but there are some subtle distinctions. 
 
-In a class based lang like Ruby or python, all objects belong to a class. 
+ 
+Class-based object-oriented languages like Ruby or Python primarily use two types of abstractions to represent the world: objects, which represent specific instances of something and classes, which are generalizations of a type of objects that hold common properties and functions. All objects belong to a class. Classes can inherit properties and methods from other classes, creating a single inheritance chain. 
 
 Let's use one of my favorite type of objects as an example, beer.
 
-- In my real life, meatspace fridge, I have a can of Narragansett
 - The Beer Narragansett is an example of a lager.
 - Lager, along with Ale, is one of the two main categories of beer.
 - Beer is a delicious treat made of hops, barley and yeast
 
-Class-based object-oriented languages like Ruby or Python primarily use two types of abstractions to represent the world: objects, which represent specific real-world objects and classes, which are generalizations of a type of objects that hold common properties and functions. Here's how such a language might represent this hierarchy of beer:
-
-
+Here's how such a language might represent this hierarchy of beer:
 
 | Level of Abstraction | Name | Comments |
-| --- | --- | --- | --- |
-| 0 | my beer | The real life can in my fridge |
+| --- | --- | --- |
 | 1 | `myBeer`  | an object of the class `Narragansett`, representing my actual beer.  |
 | 2 |  `Narragansett` | a class, which contains all the properties and methods that cans of `Narragansett` share, such as being made on honor |
 | 3 | `lager` | a superclass of `Narragansett`. It contains all the properties that `Narragansett` shares with other `lager` subclasses, such as being bottom-fermenting |
 | 4 | `Beer` | a superclass of `lager`, which contain the basic properties of beer |
 
-Beer -- class
-Ales and Lagers -- two subclasses
-lager -- A subclass of Ale
-Le Fin Du Monde, an object instance of the lager class 
 
 
 
+Inheritance as message forwarding
 an object is an instance of a thing
 a class is a definition of a class of things 
 
