@@ -499,7 +499,16 @@ This example is still kid of contrived, let's come up with a better example.
 >In most cases, the value of this is determined by how a function is called. It can't be set by assignment during execution, and it may be different each time the function is called -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this
 
 
-## inheritance/prototypes
+## Inheritance/Prototypes
+
+Before we get into any of the inheritance stuff I think it may be helpful to frame the purpose of general inheritance in programming. I've always found the following quote from Sandi Metz's _Practical Object-Oriented Design_ insightful:
+
+> Inheritance is, at its core, a mechanism for automatic message delegation. It defines a forwarding path for not-understood messages. It creates relationships such that, if one object cannot respond to a received message, it delegates that message to another.(106)
+
+This is the core of what inheritance is all about. If one object doesn't know how to respond to a property or method call, we check its parent object, if the parent object doesn't know how to respond, we check the next level up, and so on and so on.
+
+As you can probably imagine, diffrent languages implement inheritance systems different ways. Let's not worry about that too much right now though. Just remember that at its core inheritance is a pretty simple idea. 
+
 
 At this point you should be familiar with constructor functions:
 
@@ -627,9 +636,6 @@ console.log(yeti.age);
 ```
 
 ### Classical vs Prototypal Based Inheritance
-
-> Inheritance is, at its core, a mechanism for automatic message delegation. It defines a forwarding path for not-understood messages. It creates relationships such that, if one object cannot respond to a received message, it delegates that message to another. You don’t have to write code to explicitly delegate the message, instead you define an inheritance relationship between two objects and the forwarding happens automatically. In classical inheritance these relationships are defined by creating subclasses. Messages are forwarded from subclass to superclass; the shared code is defined in the class hierarchy.
--- POODR p.106
 
 Before we get too in the weeds of prototypes, it may be helpful to distinguish it from the more common class-based inheritance models. They are both hierarchical models of real world objects, but there are some subtle distinctions. 
 
