@@ -501,7 +501,7 @@ This example is still kid of contrived, let's come up with a better example.
 
 ## Inheritance/Prototypes
 
-Before we get into any of the inheritance stuff I think it may be helpful to frame the purpose of general inheritance in programming. I've always found the following quote from Sandi Metz's _Practical Object-Oriented Design_ insightful:
+Before we get into any of the inheritance stuff I think it may be helpful to frame the purpose of general inheritance in programming. I've always found the following quote from Sandi Metz's _Practical Object-Oriented Design_ helpful:
 
 > Inheritance is, at its core, a mechanism for automatic message delegation. It defines a forwarding path for not-understood messages. It creates relationships such that, if one object cannot respond to a received message, it delegates that message to another.(106)
 
@@ -509,6 +509,7 @@ This is the core of what inheritance is all about. If one object doesn't know ho
 
 As you can probably imagine, diffrent languages implement inheritance systems different ways. Let's not worry about that too much right now though. Just remember that at its core inheritance is a pretty simple idea. 
 
+---
 
 At this point you should be familiar with constructor functions:
 
@@ -569,12 +570,12 @@ So what's going on here? Let's back up and talk a little bit about the big pictu
 
 ### \_\_proto\_\_ and prototype
 
-It's not usually displayed, but by default all objects and functions in JavaScript have a prototype property. If you don't explictly set it to anything, the prototype will be an empty object.
+It's not usually displayed, but all objects and functions in JavaScript have a special prototype property, which by default is an empty object.
 
 You access an object's prototype with the `__proto__` property:
 
 ```javascript
-var cat = {name: 'Fluffy', color: 'brown' };
+var dessert = {name: 'Ice Cream', flavor: 'Chocolate' };
 console.log(a.__proto__);
 > {}
 ```
@@ -585,43 +586,34 @@ A function's prototype is accessed with the `prototype` property:
 function Cat(name,color){
   this.name = name;
   this.color = color;
+  this.cute = true;
 }
-console.log(Cat.prototype)
+console.log(Cat.prototype);
 > Cat {}
 ```
 
-If we go back to our two monster objects we can check the proto objects for each of them:
+Any objects created from a constructor function will have the same prototype as that function:
+
+
+```javascript
+var fluffy = new Cat('Fluffy', 'white');
+console.log(fluffy.__proto__);
+> Cat {}
+```
+
+Any properties added to a constructor's prototype will then be inherited down to the child objects:
+
+```javascript
+Cat.prototype.hair_length = 'long';
+console.log(fluffy.__proto__);
+> Cat {hair_length: 'long'}
+```
+
+If we go back to our two monster objects, we can see the age property that we added to the Monster constructor function:
 
 ```javascript
 console.log(bigfoot.__proto__);
 > Monster { age: 500 }
-```
-
-As we can see the bigfoot's __proto__ includes two parts. "Monster", which indicates its __constructor__ and an object containing all of the inherited properties.
-
-TK: Constructor explanation. Wasn't ugly inherited too? It wasn't. Log Monster.prototype and explain
-
-As we saw above, the `bigfoot` object has a prototype of Monster and inherits the `age` property. You may be wondering about the `ugly` property. Isn't that something all Monster objects have by default? Why isn't that listed when you log `bigfoot.__proto__`?
-
-It's not. Anything defined in the constructor function with the `this` keyword is defined as a local variable unique to that specific object. So while all Monster objects have `ugly` set by default, it's not part of the prototype chain and they're not linked in any way. 
-
-With prototypes you can re-define them and the change will flow down and be reflected in all child objects. That's not the case with properties defined in the constructor.
-
-TK: example.
-
-TK: log has own property 
-
-Any objects created via a constructor function will have that function as its prototype instead of an empty object:
-
-```javascript
-function Cat(name,color){
-  this.name = name;
-  this.color = color;
-  this.fuzzy = true;
-}
-var garfield = new Cat('Garfield', 'Orange');
-console.log(garfield.__proto__)
-> Cat {}
 ```
 
 Because we defined an `age` property on the Monster prototype, all Monster objects will respond with that value by default. However, if we explictly define an `age` property on the specific bigfoot or yeti objects it will overide the prototype:
@@ -634,6 +626,20 @@ console.log(bigfoot.age);
 console.log(yeti.age);
 > 500
 ```
+
+TK: Exercise
+
+As we saw above, the `bigfoot` object has a prototype of Monster and inherits the `age` property from it. You may be wondering about the `ugly` property that was also defined in the Monster function. Isn't that something all Monster objects have by default? Why isn't that listed when you log `bigfoot.__proto__`?
+
+Anything defined in the constructor function with the `this` keyword is defined as a local variable unique to that specific object. So while all Monster objects have `ugly` set by default, it's not part of the prototype chain and they're not linked between the various child objects in any way. With prototype values you can re-define them and the change will flow down and be reflected in all child objects. That's not the case with properties defined in the constructor.
+
+You can easily check if an object's proprety is inherited or local with the `hasownproperty` function
+TK: example.
+
+TK: log has own property 
+
+START HERE
+ALSO YOU GOTTA GET SOMETHING IN WITH THE CODE BLOCK AROUND 680
 
 ### Classical vs Prototypal Based Inheritance
 
