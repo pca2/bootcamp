@@ -290,11 +290,9 @@ __Summary__
 |const|block|not hoised| error if re-defined|
 
 
-## callbacks
+## callbacks, promises and hell
 
 ## this keyword and constructor functions
-and inheritance?
-
 
 Let's say you create a new object, fido:
 ```javascript
@@ -543,7 +541,7 @@ console.log(yeti);
 > Monster { name: 'Yeti', color: 'white', ugly: true, age: 500 }
 ```
 
-Let's say we decide that by default all monsters have two eyes. We'd like to set that property on all our existing monster objects. Instead of manually updating each individual monster object, like we did with the `age` property above, we can utilize the Monster function's `prototype` property and all monster objects will inherit that property as a default.
+Let's say we decide that by default all monsters have two eyes. We'd like to set that property on all our existing monster objects. Instead of manually updating each individual monster object, like we did with the `age` property above, we can utilize the Monster function's special `prototype` property to define properties that all monster objects will inherit. 
 
 ```javascript
 Monster.prototype.eyes = 2;
@@ -570,7 +568,8 @@ So what's going on here? Let's back up and talk a little bit about the big pictu
 
 ### \_\_proto\_\_ and prototype
 
-It's not usually displayed, but all objects and functions in JavaScript have a special prototype property, which by default is an empty object.
+It's not usually displayed, but all objects and functions in JavaScript have a special prototype property, which by default is an empty object. You can think of a prototype as a kind of template. When new objects are created, they will copy that prototype, and inherit all the values within. Keep in mind that any propotype properties inherited by an object are distinct from the properties defined in a constructor function using the `this` keyword, but we'll get into that more later.
+
 
 You access an object's prototype with the `__proto__` property:
 
@@ -592,21 +591,30 @@ console.log(Cat.prototype);
 > Cat {}
 ```
 
-Any objects created from a constructor function will have the same prototype as that function:
+As we said above, by default prototypes are empty.
 
+Any objects created from a constructor function will have the same prototype as that function:
 
 ```javascript
 var fluffy = new Cat('Fluffy', 'white');
 console.log(fluffy.__proto__);
 > Cat {}
+fluffy.__proto__ === Cat.prototype
+> true
+
 ```
 
-Any properties added to a constructor's prototype will then be inherited down to the child objects:
+Any properties added to a constructor's prototype will then be inherited down to its child objects:
 
 ```javascript
 Cat.prototype.hair_length = 'long';
-console.log(fluffy.__proto__);
-> Cat {hair_length: 'long'}
+console.log(fluffy.hair_length);
+> 'long'
+```
+
+Because fluffy.__proto__ and Cat.prototype point to the same object you can also set a prototype property like so: 
+```javascript
+fluffy.__proto__.claws = 'sharp'
 ```
 
 If we go back to our two monster objects, we can see the age property that we added to the Monster constructor function:
@@ -627,9 +635,14 @@ console.log(yeti.age);
 > 500
 ```
 
+TK: How can you tell if a property is local to an object or inherited? Fortunately there's a the handy `hasownproperty` function
+
+
 TK: Exercise
 
 As we saw above, the `bigfoot` object has a prototype of Monster and inherits the `age` property from it. You may be wondering about the `ugly` property that was also defined in the Monster function. Isn't that something all Monster objects have by default? Why isn't that listed when you log `bigfoot.__proto__`?
+
+It's important to remember that although you frequently see them together a constructor function, is not the same thing as a prototype. 
 
 Anything defined in the constructor function with the `this` keyword is defined as a local variable unique to that specific object. So while all Monster objects have `ugly` set by default, it's not part of the prototype chain and they're not linked between the various child objects in any way. With prototype values you can re-define them and the change will flow down and be reflected in all child objects. That's not the case with properties defined in the constructor.
 
