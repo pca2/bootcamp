@@ -570,7 +570,6 @@ So what's going on here? Let's back up and talk a little bit about the big pictu
 
 It's not usually displayed, but all objects and functions in JavaScript have a special prototype property, which by default is an empty object. You can think of a prototype as a kind of template. When new objects are created, they will copy that prototype, and inherit all the values within. Keep in mind that any propotype properties inherited by an object are distinct from the properties defined in a constructor function using the `this` keyword, but we'll get into that more later.
 
-
 You access an object's prototype with the `__proto__` property:
 
 ```javascript
@@ -604,7 +603,7 @@ fluffy.__proto__ === Cat.prototype
 
 ```
 
-Any properties added to a constructor's prototype will then be inherited down to its child objects:
+Any properties added to a constructor's prototype object will then be inherited down to its child objects:
 
 ```javascript
 Cat.prototype.hair_length = 'long';
@@ -613,18 +612,19 @@ console.log(fluffy.hair_length);
 ```
 
 Because fluffy.__proto__ and Cat.prototype point to the same object you can also set a prototype property like so: 
+
 ```javascript
 fluffy.__proto__.claws = 'sharp'
 ```
 
-If we go back to our two monster objects, we can see the age property that we added to the Monster constructor function:
+If we go back to our two monster objects, we can see the age property that we added to the Monster constructor function prototype:
 
 ```javascript
 console.log(bigfoot.__proto__);
 > Monster { age: 500 }
 ```
 
-Because we defined an `age` property on the Monster prototype, all Monster objects will respond with that value by default. However, if we explictly define an `age` property on the specific bigfoot or yeti objects it will overide the prototype:
+Because we defined an `age` property on the Monster prototype, all Monster objects will respond with that value by default. However, if we explictly define an `age` property on the specific bigfoot or yeti objects, it will override the prototype:
 
 ```javascript
 Monster.prototype.age = 500;
@@ -635,21 +635,43 @@ console.log(yeti.age);
 > 500
 ```
 
-TK: How can you tell if a property is local to an object or inherited? Fortunately there's a the handy `hasownproperty` function
+We can check whether a property is inherited or local to an object with the `hasOwnProperty()` function:
 
+```javascript
+ bigfoot.hasOwnProperty('age');
+ > true
+ yeti.hasOwnProperty('age');
+ > false
+```
+
+As you can see, because we defined  a local `age` property to `bigfoot` `hasOwnProperty` returned true, but `yeti`, which only has an inherited `age`, returns false
 
 TK: Exercise
 
-As we saw above, the `bigfoot` object has a prototype of Monster and inherits the `age` property from it. You may be wondering about the `ugly` property that was also defined in the Monster function. Isn't that something all Monster objects have by default? Why isn't that listed when you log `bigfoot.__proto__`?
+At this point it's probably important to distinguish a little bit between the properties inherited as part of a constructor's prototype object and the properties created as part of the constructor function using the `this` keyword.
 
-It's important to remember that although you frequently see them together a constructor function, is not the same thing as a prototype. 
+Just to review, here's our  Monster constructor and its prototype again: 
 
-Anything defined in the constructor function with the `this` keyword is defined as a local variable unique to that specific object. So while all Monster objects have `ugly` set by default, it's not part of the prototype chain and they're not linked between the various child objects in any way. With prototype values you can re-define them and the change will flow down and be reflected in all child objects. That's not the case with properties defined in the constructor.
+```javascript
+function Monster(name,color){
+  this.name = name;
+  this.color = color;
+  this.ugly = true;
+}
 
-You can easily check if an object's proprety is inherited or local with the `hasownproperty` function
-TK: example.
+Monster.prototype.age = 500;
 
-TK: log has own property 
+```
+
+All objects created with the Monster constructor will have an `age` and `ugly` property, but only `age` is part of the prototype. `ugly` and the other properties are local to the individual objects created and are not a part of the inheritance chain.
+
+So that's the basics of prototypes in JavaScript. But how would you actually use them in practice?
+
+what about this kinda thing- non-constructor pattern, prototypal pattern:
+var human = {};
+var man = Object.create(human);
+var johnDoe = Object.create(man);
+
 
 START HERE
 ALSO YOU GOTTA GET SOMETHING IN WITH THE CODE BLOCK AROUND 680
