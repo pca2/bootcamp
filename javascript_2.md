@@ -568,7 +568,9 @@ So what's going on here? Let's back up and talk a little bit about the big pictu
 
 ### \_\_proto\_\_ and prototype
 
-It's not usually displayed, but all objects and functions in JavaScript have a special prototype property, which by default is an empty object. You can think of a prototype as a kind of template. When new objects are created, they will copy that prototype, and inherit all the values within. Keep in mind that any propotype properties inherited by an object are distinct from the properties defined in a constructor function using the `this` keyword, but we'll get into that more later.
+It's not usually displayed, but all objects and functions in JavaScript have a special prototype property, which by default is an empty object. You can think of a prototype as a kind of template. When new objects are created using an existing object as a template, they will copy that existing object's prototype, and inherit all the properties within. 
+
+Keep in mind that any prototype properties inherited by an object are distinct from the properties defined in a constructor function using the `this` keyword, but we'll get into that more later.
 
 You access an object's prototype with the `__proto__` property:
 
@@ -611,7 +613,7 @@ console.log(fluffy.hair_length);
 > 'long'
 ```
 
-Because fluffy.__proto__ and Cat.prototype point to the same object you can also set a prototype property like so: 
+Because `fluffy.__proto__`  and `Cat.prototype` point to the same object you can also set a prototype property like so: 
 
 ```javascript
 fluffy.__proto__.claws = 'sharp'
@@ -624,7 +626,7 @@ console.log(bigfoot.__proto__);
 > Monster { age: 500 }
 ```
 
-Because we defined an `age` property on the Monster prototype, all Monster objects will respond with that value by default. However, if we explictly define an `age` property on the specific bigfoot or yeti objects, it will override the prototype:
+Because we defined an `age` property on the Monster prototype, all Monster objects will respond with that value by default. However, if we explicitly define an `age` property on the specific bigfoot or yeti objects, it will override the prototype:
 
 ```javascript
 Monster.prototype.age = 500;
@@ -644,7 +646,7 @@ We can check whether a property is inherited or local to an object with the `has
  > false
 ```
 
-As you can see, because we defined  a local `age` property to `bigfoot` `hasOwnProperty` returned true, but `yeti`, which only has an inherited `age`, returns false
+As you can see, because we defined  a local `age` property to `bigfoot`, `hasOwnProperty` returned true, but `yeti`, which only has an inherited `age`, returns false.
 
 TK: Exercise
 
@@ -663,10 +665,19 @@ Monster.prototype.age = 500;
 
 ```
 
-All objects created with the Monster constructor will have an `age` and `ugly` property, but only `age` is part of the prototype. `ugly` and the other properties are local to the individual objects created and are not a part of the inheritance chain.
+All objects created with the Monster constructor will have an `age` and `ugly` property, but only `age` is part of the prototype. `ugly` and the other properties are local to the individual objects created and are not part of the inheritance chain. In this way a constructor function is similar to the `initialize` method of Ruby classes and other languages. Anything defined using `this` is local to the new object that's created.
+
+
+TK: WHAT DO YOU PUT IN THE PROTOTYPE VS IN THE CONSTRUCTOR. ANSWER: METHODS AND SHARED VALUES IN THE PROTOTYPE. THE CONSTRUCTOR IS WHERE YOU STORE INSTANCE-SPECIFIC DATA.
+THAT MEANS YOU PROBABLY DON'T WANT UGLY ON THE MONSTER CONSTRUCTOR
+
 
 So that's the basics of prototypes in JavaScript. But how would you actually use them in practice?
 
+SO THAT'S THE BASICS BUT HOW WOULD YOU EXTEND A 'PROTOTYPE'? move on to the full inheritance set up
+
+
+MOVE THIS TO THE BOTTOM. AFTER YOU DO THE CLASS STUFF TO TALK ABOUT OTHER PATTERS
 what about this kinda thing- non-constructor pattern, prototypal pattern:
 var human = {};
 var man = Object.create(human);
