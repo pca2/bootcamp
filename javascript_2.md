@@ -515,7 +515,6 @@ At this point you should be familiar with constructor functions:
 function Monster(name,color){
   this.name = name;
   this.color = color;
-  this.ugly = true;
 }
 ```
 
@@ -525,9 +524,9 @@ You can use them to create new objects with some built-in properties.
 var bigfoot = new Monster('Bigfoot','brown');
 var yeti = new Monster('Yeti','white');
 console.log(bigfoot);
-> Monster { name: 'Bigfoot', color: 'brown', ugly: true  }
+> Monster { name: 'Bigfoot', color: 'brown'  }
 console.log(yeti);
-> Monster { name: 'Yeti', color: 'white', ugly: true  }
+> Monster { name: 'Yeti', color: 'white'  }
 ```
 
 If we want to give a new property to one of our individual monster objects we can do that like so:
@@ -535,10 +534,10 @@ If we want to give a new property to one of our individual monster objects we ca
 ```javascript
 bigfoot.age = 500;
 console.log(bigfoot);
-> Monster { name: 'bigfoot', color: 'brown', ugly: true, age: 500 }
+> Monster { name: 'bigfoot', color: 'brown', age: 500 }
 yeti.age = 500;
 console.log(yeti);
-> Monster { name: 'Yeti', color: 'white', ugly: true, age: 500 }
+> Monster { name: 'Yeti', color: 'white', age: 500 }
 ```
 
 Let's say we decide that by default all monsters have two eyes. We'd like to set that property on all our existing monster objects. Instead of manually updating each individual monster object, like we did with the `age` property above, we can utilize the Monster function's special `prototype` property to define properties that all monster objects will inherit. 
@@ -559,9 +558,9 @@ However, if you log the entire `yeti` or `bigfoot` object, as we did before, it 
 
 ```javascript
 console.log(bigfoot);
-> Monster { name: 'Bigfoot', color: 'brown', ugly: true, age: 500 }
+> Monster { name: 'Bigfoot', color: 'brown', age: 500 }
 console.log(yeti);
-> Monster { name: 'Yeti', color: 'white', ugly: true, age: 500 }
+> Monster { name: 'Yeti', color: 'white', age: 500 }
 ```
 So what's going on here? Let's back up and talk a little bit about the big picture.
 
@@ -586,7 +585,6 @@ A function's prototype is accessed with the `prototype` property:
 function Cat(name,color){
   this.name = name;
   this.color = color;
-  this.cute = true;
 }
 console.log(Cat.prototype);
 > Cat {}
@@ -658,27 +656,32 @@ Just to review, here's our  Monster constructor and its prototype again:
 function Monster(name,color){
   this.name = name;
   this.color = color;
-  this.ugly = true;
 }
 
 Monster.prototype.age = 500;
 
 ```
 
-All objects created with the Monster constructor will have an `age` and `ugly` property, but only `age` is part of the prototype. `ugly` and the other properties are local to the individual objects created and are not part of the inheritance chain. In this way a constructor function is similar to the `initialize` method of Ruby classes and other languages. Anything defined using `this` is local to the new object that's created.
+All objects created with the Monster constructor will have an `age` and `name` property, but only `age` is part of the prototype. `name` and the other properties are local to the individual objects created and are not part of the inheritance chain. In this way a constructor function is similar to the `initialize` method of Ruby classes and other languages. Anything defined using `this` is local to the new object that's created.
 
-
-TK: WHAT DO YOU PUT IN THE PROTOTYPE VS IN THE CONSTRUCTOR. ANSWER: METHODS AND SHARED VALUES IN THE PROTOTYPE. THE CONSTRUCTOR IS WHERE YOU STORE INSTANCE-SPECIFIC DATA.
-THAT MEANS YOU PROBABLY DON'T WANT UGLY ON THE MONSTER CONSTRUCTOR
+You may be wondering what properties to put in a constructor function and what properties to put in the prototype. The rule-of-thumb generally is that you only put instance-specific data in the constructor and anything that is shared among the objects can go in the prototype. By keeping methods and properties in the prototype you avoid duplication, so it's a good place to store anything shared. 
 
 
 So that's the basics of prototypes in JavaScript. But how would you actually use them in practice?
 
-SO THAT'S THE BASICS BUT HOW WOULD YOU EXTEND A 'PROTOTYPE'? move on to the full inheritance set up
+## Constructor pattern vs Prototype Pattern
 
+SO MAYBE REVIEW THE CONSTRUCTOR PATTERN AGAIN THEN INTRODUCE THE PROTOTYPE PATTERN
+FINALLY INTRODUCE THE FULL CLASS PATTERN WHICH IS AN EXTENSION OF THE CONSTRUCTOR PATTERN
+NOT SURE IF THAT'S THE BEST IDEA BUT LET'S GIVE IT A SHOT
 
-MOVE THIS TO THE BOTTOM. AFTER YOU DO THE CLASS STUFF TO TALK ABOUT OTHER PATTERS
 what about this kinda thing- non-constructor pattern, prototypal pattern:
+
+var man = Object.create(human);
+is the same as
+var man = {}; && man.__proto__ = human;
+
+
 var human = {};
 var man = Object.create(human);
 var johnDoe = Object.create(man);
