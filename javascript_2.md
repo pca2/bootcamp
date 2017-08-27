@@ -690,6 +690,46 @@ var johnDoe = Object.create(man);
 START HERE
 ALSO YOU GOTTA GET SOMETHING IN WITH THE CODE BLOCK AROUND 680
 
+---
+### Prototype Pattern
+
+
+We've already looked at the the constructor pattern of setting up inheritance chain:
+
+```javascript
+function Monster(name,color){
+  this.name = name;
+  this.color = color;
+}
+
+Monster.prototype.age = 500;
+var sasquach = new Monster('sasquach', 'gray');
+console.log(sasquach.age);
+> 500
+```
+
+This pattern is great when you want to be able to create lots of different objects from a single constructor, but there's actually another much simpler pattern you can follow:
+
+```javascript
+var beer = {ingredients: ['water','barley','yeast', 'hops']}
+var ale = {fermentation: 'top'};
+ale.__proto__ = beer;
+console.log(`Ale's first ingredient is ${ale.ingredients[0]}`) 
+>"Ale's first ingredient is water""
+
+beer.drink = function(){
+  console.log('glug!');   
+}
+
+ale.drink();
+>"glug!"
+```
+
+
+This pattern is great for quick and simple prototype chains, but if you want something more robust, you may want to consider to use the psudeo-class pattern.
+TK: Exercise
+
+
 ### Classical vs Prototypal Based Inheritance
 
 Before we get too in the weeds of prototypes, it may be helpful to distinguish it from the more common class-based inheritance models. They are both hierarchical models of real world objects, but there are some subtle distinctions. 
@@ -819,3 +859,44 @@ var you = {...me,name:'you'}
 console.log(you);
 > Object {"age": 37,"name": "you"}
 ```
+
+## Immediately Invoked Function Expression (IIFE)
+
+Because Javascript doesn't have explicit techniques for setting privacy and access levels, certain approaches have been developed to create effective privacy controls through certain patterns and workarounds. One such technique is known as the immediately invoked function expression or IIFE (Pronounced 'ifey')
+
+Here's a template:
+
+```javascript
+(function () {
+    // code goes here
+})();
+```
+Although that might look a bit scary, all it really is is a function that's immediately run, and not stored in memory for later use.
+
+Here's a (slightly contrived) example:
+
+```javascript
+(function (){
+var secret_number = Math.floor(Math.random() * 101);
+console.log(`Psst! The secret number is ${secret_number}`) 
+})()
+```
+
+The above code is effectively similiar to the following:
+```javascript
+var log_secret_number = function (){
+var secret_number = Math.floor(Math.random() * 101);
+  console.log(`Psst! The secret number is ${secret_number}`) 
+};
+log_secret_number();
+```
+
+So why use an IIFE? Well they can offer a few advantages in the right circumstantes:
+
+1. __Privacy__: In the non-IIFE example immediately above, `log_secret_number` is exposed in the global name space, meaning that any other global object could call it again, which you probably don't want. Because it is immediately invoked you ensure it's invoked once and only once. Also because the `secret_number` variable is scoped to the IIFE function, it can't be accessed by anything else.
+2. __Memory/Performance__: The `log_secret_number` function is now in memory forever, even though it's not needed again. IIFEs are immediately cleaned up after use, freeing up memory.
+3. __Namespace__: Now that you've defined a `log_secret_number` function in the global namespace, there's always the possibility of collusion with another library or developer's work. Because nothing is exposed outside of the IIFE you ensure against this.
+
+
+
+
