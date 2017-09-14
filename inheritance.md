@@ -1,15 +1,39 @@
 ## Inheritance/Prototypes
 
-Before we get into any of the inheritance stuff I think it may be helpful to frame the purpose of general inheritance in programming. I've always found the following quote from Sandi Metz's _Practical Object-Oriented Design_ helpful:
+Inheritance is a key concept in any object-oriented programming language. Although the implementation details can vary considerably from language to language, the essential idea behind inheritance is be relatively simple: message delegation. The following quote from Sandi Metz's _Practical Object-Oriented Design_ sums it up pretty succinctly:
 
 > Inheritance is, at its core, a mechanism for automatic message delegation. It defines a forwarding path for not-understood messages. It creates relationships such that, if one object cannot respond to a received message, it delegates that message to another.(106)
 
-This is the core of what inheritance is all about. If one object doesn't know how to respond to a property or method call, we check its parent object, if the parent object doesn't know how to respond, we check the next level up, and so on and so on.
+This is the core of what inheritance is all about. If one object doesn't know how to respond to a property or method call, we check its parent object, if the parent object doesn't know how to respond, we check the next level up, and so on and so on. As we'll see today, the actual implementation details can get pretty complex pretty quickly, but it's important to keep in mind that the core of this concept is relatively straightforward.
 
-As you can probably imagine, diffrent languages implement inheritance systems different ways. Let's not worry about that too much right now though. Just remember that at its core inheritance is a pretty simple idea. 
+### Classical vs. Prototypal Inheritance
+
+Class-based inheritance systems are much more common than prototypal systems, so it might be helpful to quickly distinguish the two. Let's review classical inheritance briefly and then contrast it with a prototypal system. 
+
+**Classical Inheritance**
+
+Class-based object-oriented languages, such as Ruby or Python, primarily use two main types of abstractions to represent the world:
+- objects: a specific instance of something: An email, a cake, a customer help request, etc.
+- classes: A generalization of a type of object. Hold common properties and functions common to all of those objects. 
+
+All objects belong to a class, from which they can inherit properties and methods. Classes in turn can inherit things from another class. This hierarchy of class -> subclass -> object creates what's known as the _inheritance chain_ or _inheritance path_. 
+
+| Name | Type | Comments |
+| --- | --- | --- |
+| Cake | class | The base class, and in this instance, a superclass of IceCreamCake |
+| IceCreamCake | class | a subclass of Cake. Can also be said to _extend_ the Cake class |
+| myCake | object  | an instance of the IceCreamCake class. Although it has some properties unique to it, it also inherits many properties from IceCreamCake |
+
+On a superficial level, you might think of a class as a blueprint, or recipe, for a type of objects. In the same way that you use an actual ice cream cake recipe to create real-world ice cream cake, you can use the IceCreamCake class to create an IceCreamCake object.
+
+Continuing with this Class/recipe metaphor, it's important to note that much like a cake recipe is not itself a cake, the Cake class is not itself a cake object. To put it another way, a cake recipe is just a set of instructions for making cake, it's not actually made of flour and sugar. The same can be set of the Cake class: It's a set of instructions for making Cake objects, but it's not a Cake object. This may seem like an odd concept to highlight, but as we'll see in a moment, it works quite differently with prototypal languages.
+
+
+
+
+
 
 ---
-
 At this point you should be familiar with constructor functions:
 
 ```javascript
@@ -302,5 +326,4 @@ Fluffy.__proto__.age = 4
 //if we redefine Cat, the existing children aren't affected, but any new ones are
 Cat.prototype = {age: 88};
 var s = new Cat('s','something');
-
 ```
