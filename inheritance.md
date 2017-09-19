@@ -1,6 +1,6 @@
 ## Inheritance/Prototypes
 
-Inheritance is a key concept in any object-oriented programming language. Although the implementation details can vary considerably from language to language, the essential idea behind inheritance is be relatively simple: message delegation. The following quote from Sandi Metz's _Practical Object-Oriented Design_ sums it up pretty succinctly:
+Inheritance is a key concept in any object-oriented programming language. Although the implementation details can vary considerably from language to language, the essential idea behind inheritance is relatively simple: message delegation. The following quote from Sandi Metz's _Practical Object-Oriented Design_ sums it up pretty succinctly:
 
 > Inheritance is, at its core, a mechanism for automatic message delegation. It defines a forwarding path for not-understood messages. It creates relationships such that, if one object cannot respond to a received message, it delegates that message to another.(106)
 
@@ -13,20 +13,50 @@ Class-based inheritance systems are much more common than prototypal systems, so
 **Classical Inheritance**
 
 Class-based object-oriented languages, such as Ruby or Python, primarily use two main types of abstractions to represent the world:
-- objects: a specific instance of something: An email, a cake, a customer help request, etc.
-- classes: A generalization of a type of object. Hold common properties and functions common to all of those objects. 
+- objects: A specific instance of something. An email, a cake, a customer help request, etc.
+- classes: A generalization of a type of object. They hold shared properties and functions common to all of those objects. 
 
-All objects belong to a class, from which they can inherit properties and methods. Classes in turn can inherit things from another class. This hierarchy of class -> subclass -> object creates what's known as the _inheritance chain_ or _inheritance path_. 
+All objects belong to a class, from which they can inherit properties and methods. Classes in turn can inherit things from another class. This hierarchy of class -> subclass -> object creates what's known as a _inheritance chain_ or _inheritance path_. 
 
 | Name | Type | Comments |
 | --- | --- | --- |
 | Cake | class | The base class, and in this instance, a superclass of IceCreamCake |
 | IceCreamCake | class | a subclass of Cake. Can also be said to _extend_ the Cake class |
-| myCake | object  | an instance of the IceCreamCake class. Although it has some properties unique to it, it also inherits many properties from IceCreamCake |
+| myBirthdayCake | object  | an instance of the IceCreamCake class. Although it has some properties unique to it, it also inherits many properties from IceCreamCake, which in turn has inherited properties from the Cake class |
 
-On a superficial level, you might think of a class as a blueprint, or recipe, for a type of objects. In the same way that you use an actual ice cream cake recipe to create real-world ice cream cake, you can use the IceCreamCake class to create an IceCreamCake object.
+On a superficial level, you might think of a class as a blueprint, or recipe, for a type of objects. In the same way that you use an actual ice cream cake recipe to create a real-world ice cream cake, you can use the IceCreamCake class to create an IceCreamCake object.
 
-Continuing with this Class/recipe metaphor, it's important to note that much like a cake recipe is not itself a cake, the Cake class is not itself a cake object. To put it another way, a cake recipe is just a set of instructions for making cake, it's not actually made of flour and sugar. The same can be set of the Cake class: It's a set of instructions for making Cake objects, but it's not a Cake object. This may seem like an odd concept to highlight, but as we'll see in a moment, it works quite differently with prototypal languages.
+Continuing with this Class/recipe metaphor, it's important to note that much like a cake recipe is not itself a cake, the Cake class is not itself a cake object. To put it another way, a cake recipe is just a set of instructions for making cake, it's not actually made of flour and sugar. The same can be said of the Cake class: It's a set of instructions for making Cake objects, but it's not a Cake object. This may seem like an odd concept to highlight, but as we'll see in a moment, it works quite differently with prototypal languages.
+
+
+**Prototypal Inheritance**
+
+Javascript, as a prototype-based language, lacks the concept of classes*, as such the only abstraction it has at its disposal is objects. The need to share common properties and methods across similiar objects still exists though, and JavaScript accomplishes this by designating certain objects as __prototypes__ of others. An object will inherit all properties of its prototype, similiar to how an object in Ruby or Python inherits the properties of the class it belongs to. Objects designated as prototypes are not different or distinct from non-prototype objects, all that differs is how their `prototype` property has been assigned. Let's take a look at how our cake inheritance chain might look under this system.
+
+```javascript
+var cake = {ingredients: ['flour','sugar','eggs','butter','baking powder', 'milk'], flavor:'vanilla'};
+var iceCreamCake = {};
+iceCreamCake.__proto__ = cake ;
+iceCreamCake.ice_cream_flavor = "vanilla";
+var myBirthdayCake = {};
+myBirthdayCake.__proto__ = iceCreamCake;
+myBirthdayCake.flavor = 'chocolate';
+console.log(`My birthday cake is ${myBirthdayCake.flavor} with ${myBirthdayCake.ice_cream_flavor} ice cream `)
+```
+
+var man = Object.create(human);
+is the same as
+var man = {}; && man.__proto__ = human;
+
+
+| Name | Type | Comments |
+| --- | --- | --- |
+| Cake | object | The prototype of IceCreamCake  |
+| IceCreamCake | object | The  |
+| myBirthdayCake | object  | an instance of the IceCreamCake class. Although it has some properties unique to it, it also inherits many properties from IceCreamCake, which in turn has inherited properties from the Cake class |
+
+<sub>*Although ES6 did introduce the `class` syntax, it's effectively syntactical sugar over JavaScript's prototype system, as we'll see later. </sub>
+
 
 
 
@@ -326,4 +356,5 @@ Fluffy.__proto__.age = 4
 //if we redefine Cat, the existing children aren't affected, but any new ones are
 Cat.prototype = {age: 88};
 var s = new Cat('s','something');
+
 ```
