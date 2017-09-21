@@ -31,29 +31,48 @@ Continuing with this Class/recipe metaphor, it's important to note that much lik
 
 **Prototypal Inheritance**
 
-Javascript, as a prototype-based language, lacks the concept of classes*, as such the only abstraction it has at its disposal is objects. The need to share common properties and methods across similiar objects still exists though, and JavaScript accomplishes this by designating certain objects as __prototypes__ of others. An object will inherit all properties of its prototype, similiar to how an object in Ruby or Python inherits the properties of the class it belongs to. Objects designated as prototypes are not different or distinct from non-prototype objects, all that differs is how their `prototype` property has been assigned. Let's take a look at how our cake inheritance chain might look under this system.
+Javascript, as a prototype-based language, lacks the concept of classes*, as such the only abstraction it has at its disposal is objects. The need to share common properties and methods across similiar objects still exists though, and JavaScript accomplishes this by designating certain objects as __prototypes__ of others. An object will inherit all properties of its prototype, similiar to how an object in Ruby or Python inherits the properties of the class it belongs to. Let's take a look at this in action by returning to our example of Cake -> IceCreamCake -> myBirthdayCake.
+
+First let's define a cake object:
 
 ```javascript
-var cake = {ingredients: ['flour','sugar','eggs','butter','baking powder', 'milk'], flavor:'vanilla'};
-var iceCreamCake = {};
-iceCreamCake.__proto__ = cake ;
-iceCreamCake.ice_cream_flavor = "vanilla";
+var cake = {
+  ingredients: ['flour','sugar','eggs','butter','baking powder', 'milk'], 
+  flavor:'vanilla'
+  };
+```
+Now let's define an IceCreamCake object that has a `ice_cream_flavor` property:
+
+```javascript
+var iceCreamCake = {
+  ice_cream_flavor: "vanilla"
+  };
+```
+Right now these are just two plain ol' objects that aren't connected to each other in any way. Let's change that by declaring that iceCreamCake's prototype is cake. Once we do that iceCreamCake will have access to cake's properties.
+
+```javascript
+iceCreamCake.__proto__ = cake;
+console.log(`The first ingredient in iceCreamCake is ${iceCreamCake.ingredients[0]}`)
+```
+
+Now that we have the cake -> iceCreamCake relationship defined we can create a myBirthdayCake object that inherits from both:
+```javascript
 var myBirthdayCake = {};
 myBirthdayCake.__proto__ = iceCreamCake;
 myBirthdayCake.flavor = 'chocolate';
 console.log(`My birthday cake is ${myBirthdayCake.flavor} with ${myBirthdayCake.ice_cream_flavor} ice cream `)
 ```
 
-var man = Object.create(human);
-is the same as
-var man = {}; && man.__proto__ = human;
 
+Objects designated as prototypes are not different or distinct from non-prototype objects, all that differs is how their `prototype` property has been assigned. Let's take a look at how our cake inheritance chain might look under this system.
 
 | Name | Type | Comments |
 | --- | --- | --- |
 | Cake | object | The prototype of IceCreamCake  |
 | IceCreamCake | object | The  |
 | myBirthdayCake | object  | an instance of the IceCreamCake class. Although it has some properties unique to it, it also inherits many properties from IceCreamCake, which in turn has inherited properties from the Cake class |
+
+(Object.create? By default JS objects don't belong to a class)
 
 <sub>*Although ES6 did introduce the `class` syntax, it's effectively syntactical sugar over JavaScript's prototype system, as we'll see later. </sub>
 
