@@ -1,1 +1,3 @@
-Bootcamp*Because you can't Google how to do everything*
+Bootcamp
+
+Because you can't Google how to do *everything*
