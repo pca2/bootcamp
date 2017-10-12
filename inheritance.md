@@ -16,7 +16,7 @@ Class-based object-oriented languages, such as Ruby or Python, primarily use two
 - objects: A specific instance of something. An email, a cake, a customer help request, etc.
 - classes: A generalization of a type of object. They hold shared properties and functions common to all of those objects. 
 
-All objects belong to a class, from which they can inherit properties and methods. Classes in turn can inherit things from another class. This hierarchy of class -> subclass -> object creates what's known as a _inheritance chain_ or _inheritance path_. 
+In Ruby all objects belong to a class, from which they inherit properties and methods. Classes in turn can inherit things from another class. This hierarchy of `class -> subclass -> object` creates what's known as a _inheritance chain_ or _inheritance path_. 
 
 | Name | Type | Comments |
 | --- | --- | --- |
@@ -24,14 +24,13 @@ All objects belong to a class, from which they can inherit properties and method
 | IceCreamCake | class | a subclass of Cake. Can also be said to _extend_ the Cake class |
 | myBirthdayCake | object  | an instance of the IceCreamCake class. Although it has some properties unique to it, it also inherits many properties from IceCreamCake, which in turn has inherited properties from the Cake class |
 
-On a superficial level, you might think of a class as a blueprint, or recipe, for a type of objects. In the same way that you use an actual ice cream cake recipe to create a real-world ice cream cake, you can use the IceCreamCake class to create an IceCreamCake object.
+On a superficial level, you might think of a class as a blueprint, or recipe, for a type of objects. In the same way that you use an actual ice cream cake recipe to create a real-world ice cream cake, you can use the `IceCreamCake` class to create an `IceCreamCake` object like `myBirthdayCake`.
 
-Continuing with this Class/recipe metaphor, it's important to note that much like a cake recipe is not itself a cake, the Cake class is not itself a cake object. To put it another way, a cake recipe is just a set of instructions for making cake, it's not actually made of flour and sugar. The same can be said of the Cake class: It's a set of instructions for making Cake objects, but it's not a Cake object. This may seem like an odd concept to highlight, but as we'll see in a moment, it works quite differently with prototypal languages.
-
+Cake receipes are of course just a set of instructions, they're not made of flour and sugar. Similiary, the `Cake` class is not a `Cake` object, it's just a set of instructions on how to make `Cake` objects. This may seem like an odd aspect to highlight, but as we'll see in a moment, this metaphor doesn't quite work with prototypal languages.
 
 **Prototypal Inheritance**
 
-Javascript, as a prototype-based language, lacks the concept of classes*, as such the only abstraction it has at its disposal is objects. The need to share common properties and methods across similiar objects still exists though, and JavaScript accomplishes this by designating certain objects as __prototypes__ of others. An object will inherit all properties of its prototype, similiar to how an object in Ruby or Python inherits the properties of the class it belongs to. Let's take a look at this in action by returning to our example of Cake -> IceCreamCake -> myBirthdayCake.
+Javascript, as a prototype-based language, lacks the concept of classes\*, as such the only abstraction it has at its disposal is objects. The need to share common properties and methods across similiar objects still exists though, and JavaScript accomplishes this by designating certain objects as __prototypes__ of others. An object will inherit all properties of its prototype, similiar to how an object in Ruby or Python inherits the properties of the class it belongs to. Let's take a look at this in action by returning to our example of `Cake -> IceCreamCake -> myBirthdayCake`.
 
 First let's define a cake object:
 
@@ -48,14 +47,14 @@ var iceCreamCake = {
   ice_cream_flavor: "vanilla"
   };
 ```
-Right now these are just two plain ol' objects that aren't connected to each other in any way. Let's change that by declaring that iceCreamCake's prototype is cake. Once we do that iceCreamCake will have access to cake's properties.
+Right now these are just two plain ol' objects that aren't connected to each other in any way. Let's change that by declaring that `iceCreamCake`'s prototype is `cake`. Once we do that `iceCreamCake` will have access to cake's properties.
 
 ```javascript
 iceCreamCake.__proto__ = cake;
 console.log(`The first ingredient in iceCreamCake is ${iceCreamCake.ingredients[0]}`)
 ```
 
-Now that we have the cake -> iceCreamCake relationship defined we can create a myBirthdayCake object that inherits from both:
+Now that we have the `cake -> iceCreamCake` relationship defined we can create a myBirthdayCake object that inherits from both:
 ```javascript
 var myBirthdayCake = {};
 myBirthdayCake.__proto__ = iceCreamCake;
@@ -63,14 +62,13 @@ myBirthdayCake.flavor = 'chocolate';
 console.log(`My birthday cake is ${myBirthdayCake.flavor} with ${myBirthdayCake.ice_cream_flavor} ice cream `)
 ```
 
-
-Objects designated as prototypes are not different or distinct from non-prototype objects, all that differs is how their `prototype` property has been assigned. Let's take a look at how our cake inheritance chain might look under this system.
+Objects designated as prototypes are still just plain 'ol objects, all that differs is how their `prototype` property has been assigned. Let's take a look at how our cake inheritance chain might look under this system.
 
 | Name | Type | Comments |
 | --- | --- | --- |
-| Cake | object | The prototype of IceCreamCake  |
-| IceCreamCake | object | The  |
-| myBirthdayCake | object  | an instance of the IceCreamCake class. Although it has some properties unique to it, it also inherits many properties from IceCreamCake, which in turn has inherited properties from the Cake class |
+| cake | object | The prototype of `iceCreamCake`  |
+| iceCreamCake | object | The child of `cake`, and the prototype of `myBirthdayCake`  |
+| myBirthdayCake | object  | The child of `iceCreamCake` |
 
 (Object.create? By default JS objects don't belong to a class)
 
