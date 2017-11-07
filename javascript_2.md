@@ -96,7 +96,7 @@ var makeCounter = function() {
 };
 ```
 
-This is very similiar to the other closures we saw above. `MakeCounter` defines an initial variable, `privateCounter` and an a function, `changeBy`, which has access to `privateCounter`. Instead of returning a single function as we saw earlier, it actually returns an object which contains 3 functions. Two of these functions call the `ChangeBy` function, and as a result have access to `privateCounter` through the magic of closure.
+This is very similiar to the other closures we saw above. `MakeCounter` defines an initial variable, `privateCounter` and a function, `changeBy`, which has access to `privateCounter`. Instead of returning a single function as we saw earlier, it actually returns an object which contains 3 functions. Two of these functions call the `ChangeBy` function, and as a result have access to `privateCounter` through the magic of closure.
 
 We can now create a new counter and use any of these methods:
 
