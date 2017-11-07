@@ -1,12 +1,12 @@
 ## Closure
 
-As you should be aware, JS has functional scope for variables defined with `var`. Variables are scoped to the function they are defined in, and the Global frame if not defined inside a function. Nested functions always have access to outer layers, but outer layers never have access to inner layers.
+As you should be aware, JS has functional scope for variables defined with `var`. Variables are scoped to the function they are defined in, and if they're not defined inside a function, they're scoped to the global frame. Nested functions always have access to outer layers, but outer layers never have access to inner layers.
 
 ```javascript
 function funcOne() {
   var myString = "This string is defined inside funcOne";
   function writeString() {
-      console.log(myString)
+    console.log(myString)
   }
   writeString();
 }
@@ -19,16 +19,18 @@ The above code will return:
 
 This is nothing you haven't seen before, but let's review what happens here because we're then going to build on this basic example:
 
-1. funcOne defines a variable, myString, and a function, writeString.
-2. funcOne then calls the writeString.
-3. writeString simply logs the vaiable myString. Note that writeString has access to myString thanks to JS's lexical scoping. WriteString doesn't define the variable nor is it passed in as a parameter.
+1. `funcOne` defines a variable, `myString`, and a function, `writeString`.
+2. `funcOne` then calls the `writeString` function.
+3. `writeString` simply logs the `variable` myString. Note that `writeString` has access to `myString` automatically thanks to JS's lexical scoping. `WriteString` doesn't define the variable nor is it passed in as a parameter.
 
+
+Let's change to code block above slightly to make use of closure:
 
 ```javascript
 function funcOne() {
-	var myString = "This string is defined inside funcOne";
-	function writeString() {
-			console.log(myString)
+  var myString = "This string is defined inside funcOne";
+  function writeString() {
+	  console.log(myString)
 	}
 	return writeString;
 }
@@ -37,22 +39,20 @@ var myFunc = funcOne();
 myFunc();
 ```
 
-Okay, so almost the same code as before, but now instead of funcOne defining and then running writeString, it now defines it and returns the function itself. That means when we define myFunc as the result of funcOne(), we're essentially defining myFunc as the writeString nested function. Just as in the first example, writeString has access to the myString variable, but so does myFunc. 
+Okay, so almost the same code as before, but now instead of `funcOne` defining and then running `writeString`, it now defines it and _returns_ the function itself. That means when we define `myFunc` as the result of `funcOne()`, we're essentially defining `myFunc` as the `writeString` nested function. Just as in the first example, `writeString` has access to the `myString` variable, but so does `myFunc`. 
 
-The key thing to understand here is that when a function returns another function that is nested inside of it, you're not only returning the nested function, you're returning the context in which the nested function was defined. This is what's know as a closure. This is possible in JS because functions are _first-class objects_.
+The key thing to understand here is that when a function returns another function that is nested inside of it, you're not only returning the nested function, you're returning the __context in which the nested function was defined__. This is what's know as a closure. This is possible in JS because functions are _first-class objects_.
 
 
-One of the neat things that closures allow for is functions that create other functions, but with the same initial conditions for every new instance. Let's take a look
-
+One of the neat things that closures makes possible is functions that create other functions, but with the same initial conditions for every new instance. Let's take a look.
 
 ```javascript
 var makeAdder = function(a) {
-    var adder = function(b) {
-    return a + b
+  var adder = function(b) {
+  return a + b
   }
   return adder 
 }
-
 
 var add5 = makeAdder(5);
 //the A parameter in the above code has been set to 5
@@ -72,12 +72,9 @@ add10(2);
 add10(7);
 > 17
 ```
-
-Now that's neat and all, but maybe not the most practical example. Let's take a look at some instances where closures can be quick helpful.
+Now that's neat and all, but maybe not the most practical example. Let's take a look at some instances where closures can be quite helpful.
 
 Closures allow you to mimic some of the features of object-oriented languages that JS lacks on its own. for example, private values. Let's take a look at an example:
-
-
 
 ```javascript
 var makeCounter = function() {
@@ -99,7 +96,7 @@ var makeCounter = function() {
 };
 ```
 
-This is very similiar to the other closures we saw above. MakeCounter defines an initial variable, privateCounter and an a function,changeBy, which has access to privateCounter. Instead of returning a single function as we saw earlier, it actually returns an object which contains 3 functions. Two of these functions call the ChangeBy function, and as a result have access to privateCounter through the magic of closure.
+This is very similiar to the other closures we saw above. `MakeCounter` defines an initial variable, `privateCounter` and an a function, `changeBy`, which has access to `privateCounter`. Instead of returning a single function as we saw earlier, it actually returns an object which contains 3 functions. Two of these functions call the `ChangeBy` function, and as a result have access to `privateCounter` through the magic of closure.
 
 We can now create a new counter and use any of these methods:
 
