@@ -328,7 +328,7 @@ So we've encountered the `this` keyword. It's a powerful idea that, like most th
 
 In Javascript `this` is a special keyword used inside functions to refer back to the object/context that invoked the function. Much like the actual English word, `this` can be thought of sort of like a programming pronoun. Instead of referring to another noun though, it refers to another object. This is especially helpful when you want to refer to an object that might not exist yet. 
 
-Let's take a look again and that Dog function to see what I mean.
+Let's take a look again at that Dog function to see what I mean.
 
 ```javascript
 var Dog = function(name,barkCount) {
