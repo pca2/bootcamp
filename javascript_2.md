@@ -373,7 +373,7 @@ puppy.bark();
 
 In the above example, the `this` in the `bark` function refers to `puppy`, which is pretty straight forward. There are however instances when things can get complicated and it can be tough to figure out what object `this` is pointing to. Let's go over some examples. 
 
-Just to review, let's look at to straight forward examples again:
+Just to review, let's look at two straight forward examples again:
 
 Here the `this` in the `bark` function refers to the `fido` object:
 
@@ -399,7 +399,7 @@ var Dog = function(name,barkCount) {
 var puppy = new Dog();
 ```
 
-That's pretty cut and dry, but what happens when you create a new object that refers to  existing object's inner functions? 
+That's pretty cut and dry, but what happens when you create a new object that refers to an existing object's inner functions? 
 Let's say for example that you want to create a new `fido_bark` function that refers back to the `fido.bark`:
 
 ```javascript
