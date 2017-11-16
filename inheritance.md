@@ -31,6 +31,7 @@ Cake receipes are of course just a set of instructions, they're not made of flou
 **Prototypal Inheritance**
 
 Javascript, as a prototype-based language, lacks the concept of classes\*, as such the only abstraction it has at its disposal is objects. The need to share common properties and methods across similiar objects still exists though, and JavaScript accomplishes this by designating certain objects as __prototypes__ of others. An object will inherit all properties of its prototype, similiar to how an object in Ruby or Python inherits the properties of the class it belongs to. Let's take a look at this in action by returning to our example of `Cake -> IceCreamCake -> myBirthdayCake`.
+
 <sub>*Although ES6 did introduce the `class` syntax, it's effectively syntactical sugar over JavaScript's prototype system, as we'll see later. </sub>
 
 First let's define a cake object:
