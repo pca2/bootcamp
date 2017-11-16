@@ -31,6 +31,7 @@ Cake receipes are of course just a set of instructions, they're not made of flou
 **Prototypal Inheritance**
 
 Javascript, as a prototype-based language, lacks the concept of classes\*, as such the only abstraction it has at its disposal is objects. The need to share common properties and methods across similiar objects still exists though, and JavaScript accomplishes this by designating certain objects as __prototypes__ of others. An object will inherit all properties of its prototype, similiar to how an object in Ruby or Python inherits the properties of the class it belongs to. Let's take a look at this in action by returning to our example of `Cake -> IceCreamCake -> myBirthdayCake`.
+<sub>*Although ES6 did introduce the `class` syntax, it's effectively syntactical sugar over JavaScript's prototype system, as we'll see later. </sub>
 
 First let's define a cake object:
 
@@ -47,7 +48,7 @@ var iceCreamCake = {
   ice_cream_flavor: "vanilla"
   };
 ```
-Right now these are just two plain ol' objects that aren't connected to each other in any way. Let's change that by declaring that `iceCreamCake`'s prototype is `cake`. Once we do that `iceCreamCake` will have access to cake's properties.
+Right now these are just two plain ol' objects that aren't connected to each other in any way. Let's change that by declaring that `iceCreamCake`'s prototype is `cake`. Once we do that `iceCreamCake` will have access to `cake`'s properties as if they were its own.
 
 ```javascript
 iceCreamCake.__proto__ = cake;
@@ -72,11 +73,26 @@ Objects designated as prototypes are still just plain 'ol objects, all that diff
 
 (Object.create? By default JS objects don't belong to a class)
 
-<sub>*Although ES6 did introduce the `class` syntax, it's effectively syntactical sugar over JavaScript's prototype system, as we'll see later. </sub>
+__Outline:__
+- Explain that the recipe/blueprint metaphor in Ruby, no longer applies. We're _kinda_ cloning objects, but not really (Object.assign is true cloning). It's really more like we're creating KIDS. A kid is kinda a clone of a parent, but not really
+- Explain Object.ceate as a shortcut
+- functions and prototype
+- Constructor pattern. Reveal that all objects made with constructors have their __proto__ set
+- Then introduce class pattern as sugar over the constructor pattern
 
 
+_Internal Note:_ `Object.create()` creates a new object with the prototype of the given parameter
+This:
+```javascript
+var myBirthdayCake = {};
+myBirthdayCake.__proto__ = iceCreamCake;
+```
+Is equivalant to:
+```javascript
+var myBirthdayCake = Object.create(iceCreamCake);
 
-
+`Object.assign()` creates a clone of an object with the given properties, but is not a prototype. See also: the spread operator
+```
 
 
 
