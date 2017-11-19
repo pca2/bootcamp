@@ -1,3 +1,18 @@
+# Final Proposed outline for 2
+```
+## Let and Const Variables
+## Closure
+## this keyword and constructor functions
+## Inheritance/Prototypes
+### Classical vs. Prototypal Inheritance
+  - Constructor pattern. Reveal that all objects made with constructors have their __proto__ set
+  - Then introduce class pattern as sugar over the constructor pattern
+## Spread Operator (ES6)
+## Immediately Invoked Function Expression (IIFE)
+## callbacks, promises and hell
+```
+
+
 ## Closure
 
 As you should be aware, JS has functional scope for variables defined with `var`. Variables are scoped to the function they are defined in, and if they're not defined inside a function, they're scoped to the global frame. Nested functions always have access to outer layers, but outer layers never have access to inner layers.
@@ -284,7 +299,7 @@ __Summary__
 | --- | --- | --- | --- |
 |var |function|hoisted|N/A |
 |let | block |not hoisted|N/A |
-|const|block|not hoised| error if re-defined|
+|const|block|not hoisted| error if re-defined|
 
 
 ## callbacks, promises and hell
