@@ -55,13 +55,21 @@ Right now these are just two plain ol' objects that aren't connected to each oth
 iceCreamCake.__proto__ = cake;
 console.log(`The first ingredient in iceCreamCake is ${iceCreamCake.ingredients[0]}`)
 ```
+Output:
+```
+The first ingredient in iceCreamCake is flour
+```
 
-Now that we have the `cake -> iceCreamCake` relationship defined we can create a myBirthdayCake object that inherits from both:
+Now that we have the `cake -> iceCreamCake` relationship defined we can create a `myBirthdayCake` object that inherits from both:
 ```javascript
 var myBirthdayCake = {};
 myBirthdayCake.__proto__ = iceCreamCake;
 myBirthdayCake.flavor = 'chocolate';
 console.log(`My birthday cake is ${myBirthdayCake.flavor} with ${myBirthdayCake.ice_cream_flavor} ice cream `)
+```
+Output:
+```
+My birthday cake is chocolate with vanilla ice cream
 ```
 
 Objects designated as prototypes are still just plain 'ol objects, all that differs is how their `prototype` property has been assigned. Let's take a look at how our cake inheritance chain might look under this system.
@@ -72,6 +80,35 @@ Objects designated as prototypes are still just plain 'ol objects, all that diff
 | iceCreamCake | object | The child of `cake`, and the prototype of `myBirthdayCake`  |
 | myBirthdayCake | object  | The child of `iceCreamCake` |
 
+
+Note that our metaphor earlier about a class in Ruby being like a blueprint or receipe doesn't really work with JavaScript prototypes. Every level of our inheritance chain is an object. The `cake` object at the top of our chain is a plain ol' object just like the `myBirthdayCake` object at the end. It's less like a blueprint or receipe and more like a parent object. 
+
+
+__Super Secret Pro-Tip: Object.create()__
+
+Creating an object and _then_ designating its prototype is kind of verbose. Here's a handy tip to do both in one line: `Object.create()`
+
+This:
+
+```javascript
+var myBirthdayCake = {};
+myBirthdayCake.__proto__ = iceCreamCake;
+```
+Is equivalant to:
+```javascript
+var myBirthdayCake = Object.create(iceCreamCake);
+```
+
+__Excercise__
+
+Create a three level inheritance chain of `Prototype -> Child-Prototype -> Child-Object` similiar to `Cake -> IceCreamCake -> myBirthdayCake` examples above. Be sure to include a console line or function that demostrates inherited properties
+
+
+
+
+
+__FIN__
+---
 (Object.create? By default JS objects don't belong to a class)
 
 __Outline:__
@@ -84,17 +121,8 @@ __Outline:__
 
 _Internal Note:_ `Object.create()` creates a new object with the prototype of the given parameter
 This:
-```javascript
-var myBirthdayCake = {};
-myBirthdayCake.__proto__ = iceCreamCake;
-```
-Is equivalant to:
-```javascript
-var myBirthdayCake = Object.create(iceCreamCake);
 
 `Object.assign()` creates a clone of an object with the given properties, but is not a prototype. See also: the spread operator
-```
-
 
 
 ---
