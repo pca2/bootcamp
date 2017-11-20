@@ -103,7 +103,7 @@ __Excercise__
 
 Create a three level inheritance chain of `Prototype -> Child-Prototype -> Child-Object` similiar to `Cake -> IceCreamCake -> myBirthdayCake` examples above. Be sure to include a console line or function that demostrates inherited properties
 
-## JavaScript Patterns
+### JavaScript Patterns
 
 As we've mentioned before, JavaScript lacks a lot of the abstractions present in other object-oriented languages for structuring inheritance chains and reusing code. It doesn't have classes, modules, structs or anything like that; all it has is objects and functions. Also unlike many class-based languages, objects in JavaScript don't have to be part of any class or inheritance chain. A result of this spartan approach is that JavaScript is much more flexible and agnostic about how you organize your code. Consequently there are a number of different patterns that have emerged in the JS community for how to structure your inheritance. For example, the examples you learned above illustrate part of the _Prototype Pattern_. The next approarch we're going to look at is what's known as the _Constructor Pattern_
 
