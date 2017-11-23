@@ -780,7 +780,7 @@ https://stackoverflow.com/a/19640910
 
 
 ```javascript
-function Cat(name,color)6
+function Cat(name,color){
  this.name = name;
  this.color = color;
  }
